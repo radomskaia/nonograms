@@ -1,0 +1,61 @@
+.modal {
+  position: relative;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 30px;
+  max-width: 400px;
+  background: var(--content-background);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease-in-out;
+  pointer-events: none;
+}
+
+.modal::backdrop {
+  padding: 8px;
+  background: var(--overlay);
+  transition: all 0.3s ease-in-out;
+}
+
+.modalText {
+  border-radius: var(--border-radius);
+  padding: 20px;
+  color: var(--dark);
+  background-color: var(--static-white);
+}
+
+.modal[open] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.modalButton {
+  padding: 10px;
+  font-weight: 700;
+  color: var(--static-white);
+}
+
+.closeButton {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+html:has(.modal[open]) {
+  overflow-y: hidden;
+}
+
+@starting-style {
+  .modal[open] {
+    opacity: 0;
+  }
+
+  .modal[open]::backdrop {
+    background: transparent;
+  }
+}
+

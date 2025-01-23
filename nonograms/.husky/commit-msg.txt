@@ -1,0 +1,2 @@
+cd nonograms
+npx --no -- commitlint --edit ${1}

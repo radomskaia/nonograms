@@ -1,0 +1,71 @@
+/* 760px */
+@media only screen and (width <= 47.5em) {
+  .html {
+    /* 9px */
+    font-size: 56.25%;
+  }
+
+   .container {
+     padding-inline: 20px;
+   }
+}
+
+/* 552px */
+@media only screen and (width <= 34.5em) {
+  .container {
+     gap: 15px;
+    padding-block: 10px 0;
+   }
+
+  .keyboardWrapper {
+    margin-block: 10px;
+  }
+
+  .flex {
+    flex-wrap: wrap;
+  }
+
+  .numbers {
+    max-width: 300px;
+  }
+
+  .levelList {
+    order: -1;
+  }
+
+  .flexDiv {
+    order: 0;
+  }
+
+  .roundWrapper {
+    order: -1;
+  }
+
+  .header-primary {
+    order: -2;
+  }
+}
+
+/* 448px */
+@media only screen and (width <= 28em) {
+   .container {
+     padding-inline: 10px;
+   }
+
+  .outputField {
+    width: 100%;
+    padding-inline: 20px;
+  }
+
+  .flex_gap-20 {
+    gap: 10px;
+  }
+
+  .actionButton {
+    font-size: 1.6rem;
+  }
+
+  .actionButtonHighlight {
+  width: 242px;}
+}
+

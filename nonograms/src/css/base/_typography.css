@@ -1,0 +1,21 @@
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.8rem;
+  color: var(--dark);
+}
+
+.header-primary {
+  font-weight: 600;
+  font-size: 3.2rem;
+  text-transform: uppercase;
+}
+
+.counter-text {
+  color: var(--static-red);
+}
+
+

@@ -1,0 +1,82 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: solid 1px var(--primary);
+  border-radius: var(--border-radius);
+  font-family: inherit;
+  color: inherit;
+  background-color: var(--primary);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.actionButton {
+  border: none;
+  padding: 10px 20px;
+  box-shadow: none;
+  font-weight: 700;
+  font-size: 2rem;
+  text-transform: uppercase;
+  color: var(--dark);
+  background-color: var(--static-green);
+  transform: translateY(0);
+}
+
+.actionButtonHighlight {
+  width: 293px;
+  box-shadow: 1px 10px 15px var(--primary-alpha);
+  color: var(--static-white);
+  transform: translateY(-4px);
+}
+
+.actionButton:disabled {
+  color: var(--primary-alpha);
+  background-color: var(--static-green-alpha);
+  cursor: auto;
+}
+
+.tabButton {
+  padding: 5px;
+  width: 100px;
+  text-transform: capitalize;
+  color: var(--dark);
+  background-color: var(--static-white);
+}
+
+input:disabled ~ .tabButton {
+  background-color: var(--static-white);
+  cursor: auto;
+}
+
+input:checked ~ .tabButton {
+  color: var(--static-white);
+  background-color: var(--dark);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .actionButton:hover {
+    color: var(--dark);
+    background-color: var(--static-green-alpha);
+  }
+
+  .actionButton:disabled:hover {
+    color: var(--primary-alpha);
+    background-color: var(--static-green-alpha);
+    cursor: auto;
+  }
+
+  .tabButton:hover {
+    background-color: var(--primary-alpha);
+  }
+
+  input:disabled ~ .tabButton:hover {
+    background-color: var(--static-white);
+    cursor: auto;
+  }
+
+  input:checked ~ .tabButton:hover {
+    color: var(--static-white);
+    background-color: var(--dark);
+  }
+}

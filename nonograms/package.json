@@ -1,0 +1,50 @@
+{
+  "name": "nonograms",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf node_modules/.vite",
+    "deploy": "npm run build && npx gh-pages -d dist -e nonograms",
+    "prepare": "cd .. && husky nonograms/.husky",
+    "format": "prettier --write .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "stylelint": "stylelint \"**/*.css\"",
+    "stylelint:fix": "stylelint \"**/*.css\" --fix",
+    "ci:format": "prettier --check ."
+  },
+
+  "devDependencies": {
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
+    "@eslint/js": "^9.17.0",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-perfectionist": "^4.4.0",
+    "gh-pages": "^6.2.0",
+    "globals": "^15.14.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.11",
+    "prettier": "3.4.2",
+    "stylelint": "^16.12.0",
+    "stylelint-config-clean-order": "^6.1.0",
+    "stylelint-config-standard": "^36.0.1",
+    "stylelint-config-standard-scss": "^14.0.0",
+    "stylelint-declaration-block-no-ignored-properties": "^2.8.0",
+    "stylelint-order": "^6.0.4",
+    "vite": "^6.0.5"
+  },
+  "dependencies": {
+    "postcss-import": "^16.1.0",
+    "autoprefixer": "^10.4.19",
+    "modern-normalize": "^2.0.0"
+  }
+}
