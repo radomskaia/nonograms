@@ -4,6 +4,7 @@
 @import "css/_modal.css";
 @import "css/base/_utils.css";
 @import "css/_media-queries.css";
+@import "css/_gameField.css";
 
 /* base */
 *,
@@ -31,4 +32,8 @@ a:visited{
 
 ul{
   list-style: none;
+}
+
+body {
+  background-color: var(--background-color);
 }

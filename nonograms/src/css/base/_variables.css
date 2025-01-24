@@ -1,10 +1,10 @@
 :root {
   /* color */
+  --background-color: #fbfbfd;
   --primary: #5e63ba;
   --primary-alpha: rgb(94 99 186 / 50%);
   --primary-alpha2: rgb(94 99 186 / 10%);
   --dark: #2f3480;
-  --static-red: #ff3401;
   --static-green: rgba(40, 180, 133, 0.8);
   --static-green-alpha: rgba(40, 180, 133, 0.3);
   --static-white: #fbfbfd;
@@ -16,4 +16,17 @@
 
   /* width */
   --container-width: 1440px;
+
+  [data-theme="dark"] {
+    --background-color: #1e1e2f; /* Темный фон с легким синим оттенком */
+    --primary: #7f83e7; /* Светлый оттенок основного цвета */
+    --primary-alpha: rgb(127 131 231 / 50%); /* Прозрачная версия primary */
+    --primary-alpha2: rgb(127 131 231 / 10%); /* Еще более прозрачная версия primary */
+    --dark: #4d52a3; /* Более светлый оттенок темного для контраста */
+    --static-green: rgba(50, 210, 160, 0.8); /* Более яркий оттенок зеленого */
+    --static-green-alpha: rgba(50, 210, 160, 0.3); /* Прозрачный зеленый */
+    --static-white: #e3e3e7; /* Бледно-серый для "белого" текста */
+    --content-background: #26263b; /* Темный фон для контента, чуть светлее основного фона */
+    --overlay: rgba(24, 28, 41, 0.20); /* Темный, почти черный цвет для перекрывающих элементов */
+  }
 }
