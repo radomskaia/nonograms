@@ -39,7 +39,6 @@ export function createGameTable() {
     row: [],
     column: [],
   };
-  console.log("cellCount", cellCount);
   for (let i = 0; i <= cellCount; i++) {
     if (i !== 0) {
       gameCells.push([]);
@@ -65,6 +64,23 @@ export function createGameTable() {
     setDOMElement("gameClues", gameClues);
     tbody.append(gameRow);
   }
+  renderGameClues(gameClues);
+}
+
+function renderGameClues(gameClues) {
+  const gameCluesContent = getGameState("clues");
+
+  gameCluesContent.row.forEach((arr, index) => {
+    arr.forEach((num) => {
+      gameClues.column[index].textContent += num + " ";
+    });
+  });
+
+  gameCluesContent.column.forEach((arr, index) => {
+    arr.forEach((num) => {
+      gameClues.row[index].textContent += num + " ";
+    });
+  });
 }
 
 function createGameCell(arr, isHeader, i = 0, j = 0) {

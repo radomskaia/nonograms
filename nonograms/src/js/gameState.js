@@ -13,6 +13,7 @@ const gameState = {
   isLightTheme: true,
   correctCellCount: 0,
   levelMatrixSum: 0,
+  clues: null,
 };
 
 export function getGameState(parameter) {

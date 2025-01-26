@@ -6,12 +6,19 @@
 
 .cell {
   border: 1px solid var(--primary);
+  padding: 5px;
   width: 40px;
   height: 40px;
+    text-align: end;
   background-color: inherit;
   transition: all 0.2s ease-in-out;
 }
 
+.gameRow:first-child .cell{
+  height: fit-content;
+  text-orientation: upright;
+  writing-mode: vertical-rl;
+}
 
 .gameRow:nth-child(5n +1) {
   border-bottom: 3px solid var(--primary);

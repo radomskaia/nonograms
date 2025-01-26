@@ -5,7 +5,7 @@ import { elementsDOM, getDOMElement } from "@/js/elementsDOM.js";
 import { CSS_CLASSES } from "@/js/gameConstants.js";
 import { getGameState, setGameState } from "@/js/gameState.js";
 import { createGameTable } from "@/js/createHTML/gameField.js";
-import { createProcessMatrix } from "@/js/matrix.js";
+import { calculateClues, createProcessMatrix } from "@/js/matrix.js";
 
 function createRadioButton(id) {
   const liElement = createDOMElement({
@@ -47,6 +47,7 @@ function updateLevel(id) {
   setGameState("cellCount", id);
   createProcessMatrix();
   createGameTable();
+  calculateClues();
 }
 
 export function createLevelList(levels) {
