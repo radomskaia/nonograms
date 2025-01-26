@@ -1,5 +1,19 @@
 import { createDOMElement } from "@/js/utils.js";
-import { getDOMElement } from "@/js/elementsDOM.js";
+import { getDOMElement, setDOMElement } from "@/js/elementsDOM.js";
+import { getGameState, setGameState } from "@/js/gameState.js";
+
+const clickActions = {
+  0: {
+    toggle: "filledCell",
+    remove: "crossedCell",
+    handler: leftButtonHandler,
+  },
+  2: {
+    toggle: "crossedCell",
+    remove: "filledCell",
+    handler: rightButtonHandler,
+  },
+};
 
 export function createGameField() {
   const elements = {};
@@ -11,9 +25,22 @@ export function createGameField() {
     tagName: "tbody",
   });
   elements.fieldWrapper.append(elements.tbody);
-  const gameCells = getDOMElement("gameCells");
-  const { row: rowClues, column: columnClues } = getDOMElement("gameClues");
-  for (let i = 0; i < 16; i++) {
+  setDOMElement("tbody", elements.tbody);
+  createGameTable();
+  return elements.fieldWrapper;
+}
+
+export function createGameTable() {
+  const tbody = getDOMElement("tbody");
+  tbody.replaceChildren();
+  const cellCount = getGameState("cellCount");
+  const gameCells = [];
+  const gameClues = {
+    row: [],
+    column: [],
+  };
+  console.log("cellCount", cellCount);
+  for (let i = 0; i <= cellCount; i++) {
     if (i !== 0) {
       gameCells.push([]);
     }
@@ -21,25 +48,26 @@ export function createGameField() {
       tagName: "tr",
       classList: ["gameRow"],
     });
-    for (let j = 0; j < 16; j++) {
+    for (let j = 0; j <= cellCount; j++) {
       let cell;
       if (i === 0 && j === 0) {
         cell = createGameCell(null, true);
       } else if (j === 0) {
-        cell = createGameCell(columnClues, true);
+        cell = createGameCell(gameClues.column, true);
       } else if (i === 0) {
-        cell = createGameCell(rowClues, true);
+        cell = createGameCell(gameClues.row, true);
       } else {
-        cell = createGameCell(gameCells[i - 1]);
+        cell = createGameCell(gameCells[i - 1], false, i - 1, j - 1);
       }
       gameRow.append(cell);
     }
-    elements.tbody.append(gameRow);
+    setDOMElement("gameCells", gameCells);
+    setDOMElement("gameClues", gameClues);
+    tbody.append(gameRow);
   }
-  return elements.fieldWrapper;
 }
 
-function createGameCell(arr, isHeader = false) {
+function createGameCell(arr, isHeader, i = 0, j = 0) {
   const options = { classList: ["cell"] };
   if (isHeader) {
     options.tagName = "th";
@@ -49,5 +77,52 @@ function createGameCell(arr, isHeader = false) {
   }
   const cell = createDOMElement(options);
   arr?.push(cell);
+
+  if (isHeader) {
+    return cell;
+  }
+
+  cell.addEventListener("mousedown", (event) => {
+    const levelMatrix = getGameState("levelMatrix");
+    const processMatrix = getGameState("processMatrix");
+    if (event.button in clickActions) {
+      cell.classList.toggle(clickActions[event.button].toggle);
+      cell.classList.remove(clickActions[event.button].remove);
+      clickActions[event.button].handler(levelMatrix, processMatrix, i, j);
+    }
+  });
+
+  cell.addEventListener("contextmenu", (event) => {
+    event.preventDefault();
+  });
+
   return cell;
+}
+
+function leftButtonHandler(levelMatrix, processMatrix, i, j) {
+  processMatrix[i][j] = processMatrix[i][j] === 0 ? 1 : 0;
+  compareMatrix(levelMatrix, processMatrix, i, j);
+}
+
+function rightButtonHandler(levelMatrix, processMatrix, i, j) {
+  if (levelMatrix[i][j] === 0 && processMatrix[i][j] === 0) {
+    return;
+  }
+  processMatrix[i][j] = 0;
+  compareMatrix(levelMatrix, processMatrix, i, j);
+}
+
+function compareMatrix(levelMatrix, processMatrix, i, j) {
+  let correctCellCount = getGameState("correctCellCount");
+  const levelMatrixSum = getGameState("levelMatrixSum");
+  if (levelMatrix[i][j] === processMatrix[i][j]) {
+    correctCellCount++;
+  } else {
+    correctCellCount--;
+  }
+  console.log("correctCellCount", correctCellCount);
+  setGameState("correctCellCount", correctCellCount);
+  if (correctCellCount === levelMatrixSum) {
+    console.log("WIN");
+  }
 }

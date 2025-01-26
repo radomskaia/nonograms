@@ -66,7 +66,7 @@ export function createDOMTree() {
   allElements.buttonsWrapper = createDOMElement({
     classList: ["flex", "flex--align-justify-center", "flex_gap-10"],
   });
-  allElements.levelList = createLevelList(Object.keys(LEVELS));
+  allElements.levelList = createLevelList(Object.values(LEVELS));
   allElements.buttonsWrapper.append(
     allElements.levelList,
     ...createActionButtons({
