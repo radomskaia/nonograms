@@ -1,10 +1,33 @@
-import { LEVELS } from "@/js/gameConstants.js";
+//import { LEVELS } from "@/js/gameConstants.js";
+import { matrixPicture } from "@/js/matrixPicture.js";
+//import { elementsDOM } from "@/js/elementsDOM.js";
 
-export const gameState = {
+const gameState = {
   timer: 0,
-  level: LEVELS.easy,
+  levelMatrix: matrixPicture.easy.dog,
+  cellCount: 5,
+  processMatrix: null,
   isPlaying: false,
   isClicked: false,
   isSound: true,
   isLightTheme: true,
+  correctCellCount: 0,
+  levelMatrixSum: 0,
 };
+
+export function getGameState(parameter) {
+  if (parameter in gameState) {
+    return gameState[parameter];
+  }
+  throw new Error(`Property "${parameter}" does not exist in gameState.`);
+}
+
+export function setGameState(parameter, value) {
+  if (parameter in gameState) {
+    gameState[parameter] = value;
+  } else {
+    throw new Error(
+      `Cannot set non-existent property "${parameter}" in gameState.`,
+    );
+  }
+}

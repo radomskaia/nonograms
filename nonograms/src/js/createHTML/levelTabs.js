@@ -1,8 +1,11 @@
 import { createDOMElement } from "../utils.js";
 
-import { gameState } from "@/js/gameState.js";
-import { elementsDOM } from "@/js/elementsDOM.js";
+//import { gameState } from "@/js/gameState.js";
+import { elementsDOM, getDOMElement } from "@/js/elementsDOM.js";
 import { CSS_CLASSES } from "@/js/gameConstants.js";
+import { getGameState, setGameState } from "@/js/gameState.js";
+import { createGameTable } from "@/js/createHTML/gameField.js";
+import { createProcessMatrix } from "@/js/matrix.js";
 
 function createRadioButton(id) {
   const liElement = createDOMElement({
@@ -21,7 +24,7 @@ function createRadioButton(id) {
   const labelElement = createDOMElement({
     tagName: "label",
     classList: ["button", "tabButton"],
-    textContent: id,
+    textContent: `${id} x ${id}`,
     attributes: {
       for: id,
     },
@@ -31,9 +34,19 @@ function createRadioButton(id) {
     if (inputElement.disabled) {
       return;
     }
-    gameState.level = id;
+    updateLevel(id);
   });
   return liElement;
+}
+
+function updateLevel(id) {
+  const cellCount = getGameState("cellCount");
+  if (cellCount === id) {
+    return;
+  }
+  setGameState("cellCount", id);
+  createProcessMatrix();
+  createGameTable();
 }
 
 export function createLevelList(levels) {

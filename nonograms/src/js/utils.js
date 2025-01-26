@@ -1,6 +1,6 @@
 import { CSS_CLASSES } from "@/js/gameConstants.js";
-import { gameState } from "@/js/gameState.js";
-import { elementsDOM } from "@/js/elementsDOM.js";
+//import { gameState } from "@/js/gameState.js";
+//import { elementsDOM } from "@/js/elementsDOM.js";
 
 /**
  * Creates and returns a new DOM element with the specified properties.

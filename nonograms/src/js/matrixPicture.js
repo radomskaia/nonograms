@@ -1,4 +1,4 @@
-export const MatrixPicture = Object.freeze({
+export const matrixPicture = Object.freeze({
   easy: {
     bat: [
       [0, 1, 0, 1, 0],

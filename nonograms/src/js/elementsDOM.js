@@ -8,13 +8,9 @@ export const elementsDOM = {
     [LEVELS[2]]: {},
   },
   modal: {},
-  gameCells: [],
-  gameClues: {
-    row: [],
-    column: [],
-  },
-  roundCounter: null,
-  roundWrapper: null,
+  gameCells: null,
+  gameClues: null,
+  tbody: null,
 };
 
 export function getDOMElement(element) {
