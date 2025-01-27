@@ -1,7 +1,7 @@
 import { LEVELS } from "./gameConstants.js";
 
 export const elementsDOM = {
-  actionButtons: {},
+  actionButtons: null,
   levelButtons: {
     [LEVELS[0]]: {},
     [LEVELS[1]]: {},

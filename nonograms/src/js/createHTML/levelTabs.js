@@ -43,7 +43,7 @@ function createRadioButton(id) {
   return liElement;
 }
 
-function updateTab(id) {
+export function updateTab(id) {
   const cellCount = getGameState("cellCount");
   if (cellCount === id) {
     return;
@@ -57,8 +57,8 @@ function updateTab(id) {
 export function updateLevel() {
   calculateClues();
   createProcessMatrix();
-  renderGameClues();
   calculateLevelMatrixSum();
+  renderGameClues();
 }
 
 export function createLevels(levels) {
@@ -96,10 +96,12 @@ function createDropList() {
       id: "level-picture",
     },
   });
-  levelSelect.addEventListener("change", (e) => {
+  levelSelect.addEventListener("change", () => {
+    const levelName = levelSelect.value;
+    setGameState("levelName", levelName);
     setGameState(
       "levelMatrix",
-      matrixPicture[getGameState("cellCount")][levelSelect.value],
+      matrixPicture[getGameState("cellCount")][levelName],
     );
     updateLevel();
     resetGameField();
@@ -128,17 +130,26 @@ function createDropList() {
   return levelSelect;
 }
 
-function updateDropList() {
+export function updateDropList(isSaved = false) {
   const currLevel = getGameState("cellCount");
   const options = getDOMElement("options");
+  const gameName = getGameState("levelName");
   options.forEach((value, key) => {
     if (currLevel === +key) {
-      value.forEach((item) => {
+      value.forEach((item, key) => {
+        if (isSaved && key === gameName) {
+          item.selected = true;
+        }
         item.classList.remove("display-none");
       });
+      if (isSaved) {
+        return;
+      }
       const firstElement = value.entries().next();
       firstElement.value[1].selected = true;
-      setGameState("levelMatrix", matrixPicture[key][firstElement.value[0]]);
+      const levelName = firstElement.value[0];
+      setGameState("levelMatrix", matrixPicture[key][levelName]);
+      setGameState("levelName", levelName);
       updateLevel();
     } else {
       value.forEach((item) => {

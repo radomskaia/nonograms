@@ -1,6 +1,7 @@
 import { createDOMElement } from "../utils.js";
 import { getDOMElement, setDOMElement } from "../elementsDOM.js";
 import { getGameState, setGameState } from "../gameState.js";
+import { showModalWindow } from "./modal.js";
 
 const clickActions = {
   0: {
@@ -132,7 +133,9 @@ function compareMatrix(levelMatrix, processMatrix, i, j) {
     correctCellCount--;
   }
   setGameState("correctCellCount", correctCellCount);
+  console.log(correctCellCount);
   if (correctCellCount === levelMatrixSum) {
     console.log("WIN");
+    showModalWindow();
   }
 }

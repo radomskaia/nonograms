@@ -1,14 +1,13 @@
 import { createActionButton, createDOMElement } from "../utils.js";
 import { elementsDOM } from "../elementsDOM.js";
-
+let modal, modalText;
 export function showModalWindow() {
-  elementsDOM.modal.text.textContent = "END";
-  //elementsDOM.modal.word.textContent = gameState.sequence.toUpperCase();
-  elementsDOM.modal.modal.showModal();
+  modalText.textContent = "Great! You have solved the nonogram!";
+  modal.showModal();
 }
 
 export function createModal() {
-  const modal = createDOMElement({
+  modal = createDOMElement({
     tagName: "dialog",
     classList: [
       "modal",
@@ -18,39 +17,25 @@ export function createModal() {
       "flex_gap-20",
     ],
   });
-  const closeButton = createDOMElement({
-    tagName: "button",
-    classList: ["closeButton"],
-    textContent: "❌",
-  });
-  const modalButton = createActionButton("newGame", () => {
-    modal.close();
-    //newGame();
-  });
 
-  const modalText = createDOMElement({
+  const modalButton = createActionButton("close", () => modal.close());
+
+  modalText = createDOMElement({
     tagName: "p",
   });
-  const modalText2 = createDOMElement({
-    tagName: "p",
-    textContent: "Simon says: ",
-  });
-  const secretWord = createDOMElement({
-    tagName: "strong",
-  });
-  modalText2.append(secretWord);
+  //const modalText2 = createDOMElement({
+  //  tagName: "p",
+  //  textContent: "Simon says: ",
+  //});
+  //const secretWord = createDOMElement({
+  //  tagName: "strong",
+  ////});
+  //modalText2.append(secretWord);
 
-  modal.append(closeButton, modalText, modalText2, modalButton);
-
-  closeButton.addEventListener("click", () => modal.close());
-  modalButton.addEventListener("click", () => {
-    modal.close();
-    //newGame();
-  });
+  modal.append(modalText, modalButton);
 
   return {
     modal: modal,
     text: modalText,
-    word: secretWord,
   };
 }

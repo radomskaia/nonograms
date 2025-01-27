@@ -4,6 +4,13 @@ import { createLevels } from "./levelTabs.js";
 import { LEVELS } from "../gameConstants.js";
 import { createModal } from "./modal.js";
 import { createGameField } from "./gameField.js";
+import {
+  changeTheme,
+  continueGame,
+  resetGameField,
+  saveGame,
+  showSolution,
+} from "../gameState.js";
 
 /**
  * Creates and appends the DOM tree for the game interface.
@@ -52,7 +59,7 @@ export function createDOMTree() {
   allElements.settingsWrapper.append(
     ...createActionButtons({
       sound: () => {},
-      theme: () => {},
+      theme: changeTheme,
       recordList: () => {},
     }),
   );
@@ -72,10 +79,10 @@ export function createDOMTree() {
   allElements.buttonsWrapper.append(
     allElements.levelList,
     ...createActionButtons({
-      reset: () => {},
-      save: () => {},
-      continue: () => {},
-      solution: () => {},
+      reset: resetGameField,
+      save: saveGame,
+      continue: continueGame,
+      solution: showSolution,
     }),
   );
 

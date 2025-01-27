@@ -1,5 +1,5 @@
 .gameTable {
-   border: 3px solid var(--primary);
+  border: 3px solid var(--primary);
   border-collapse: collapse;
   background-color: var(--content-background);
 }
@@ -13,15 +13,16 @@
 }
 
 .cell:first-child {
-    padding: 5px;
+  padding: 5px;
   width: fit-content;
-   word-spacing: 15px;
+  min-width: 40px;
+  word-spacing: 15px;
   text-align: end;
 }
 
-.gameRow:first-child .cell{
+.gameRow:first-child .cell {
   vertical-align: bottom;
-    padding: 5px;
+  padding: 5px;
   height: fit-content;
   white-space: pre;
 }
@@ -36,7 +37,7 @@
 }
 
 .filledCell {
-background-color: var(--dark);
+  background-color: var(--dark);
 }
 
 .crossedCell {

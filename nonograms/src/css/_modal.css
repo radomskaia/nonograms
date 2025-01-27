@@ -4,6 +4,7 @@
   border-radius: var(--border-radius);
   padding: 30px;
   max-width: 400px;
+  color: inherit;
   background: var(--content-background);
   opacity: 0;
   visibility: hidden;
@@ -20,7 +21,6 @@
 .modalText {
   border-radius: var(--border-radius);
   padding: 20px;
-  color: var(--dark);
   background-color: var(--static-white);
 }
 
