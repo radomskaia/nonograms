@@ -1,9 +1,9 @@
 import { createDOMElement } from "../utils.js";
-import { createActionButtons } from "@/js/createHTML/actionButtons.js";
-import { createLevelList } from "@/js/createHTML/levelTabs.js";
-import { LEVELS } from "@/js/gameConstants.js";
-import { createModal } from "@/js/createHTML/modal.js";
-import { createGameField } from "@/js/createHTML/gameField.js";
+import { createActionButtons } from "../createHTML/actionButtons.js";
+import { createLevelList } from "../createHTML/levelTabs.js";
+import { LEVELS } from "../gameConstants.js";
+import { createModal } from "../createHTML/modal.js";
+import { createGameField } from "../createHTML/gameField.js";
 
 /**
  * Creates and appends the DOM tree for the game interface.

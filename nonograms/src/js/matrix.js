@@ -1,4 +1,4 @@
-import { getGameState, setGameState } from "@/js/gameState.js";
+import { getGameState, setGameState } from "./gameState.js";
 
 export function createProcessMatrix() {
   const cellCount = getGameState("cellCount");

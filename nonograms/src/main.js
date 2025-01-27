@@ -1,3 +1,3 @@
-import { init } from "@/js/app.js";
+import { init } from "./js/app.js";
 
 init();

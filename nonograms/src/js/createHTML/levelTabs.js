@@ -1,11 +1,11 @@
 import { createDOMElement } from "../utils.js";
 
 //import { gameState } from "@/js/gameState.js";
-import { elementsDOM, getDOMElement } from "@/js/elementsDOM.js";
-import { CSS_CLASSES } from "@/js/gameConstants.js";
-import { getGameState, setGameState } from "@/js/gameState.js";
-import { createGameTable } from "@/js/createHTML/gameField.js";
-import { calculateClues, createProcessMatrix } from "@/js/matrix.js";
+import { elementsDOM, getDOMElement } from "../elementsDOM.js";
+import { CSS_CLASSES } from "../gameConstants.js";
+import { getGameState, setGameState } from "../gameState.js";
+import { createGameTable } from "../createHTML/gameField.js";
+import { calculateClues, createProcessMatrix } from "../matrix.js";
 
 function createRadioButton(id) {
   const liElement = createDOMElement({

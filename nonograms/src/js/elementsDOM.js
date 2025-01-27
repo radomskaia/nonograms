@@ -1,4 +1,4 @@
-import { LEVELS } from "@/js/gameConstants.js";
+import { LEVELS } from "./gameConstants.js";
 
 export const elementsDOM = {
   actionButtons: {},

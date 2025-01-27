@@ -1,4 +1,4 @@
-import { CSS_CLASSES } from "@/js/gameConstants.js";
+import { CSS_CLASSES } from "./gameConstants.js";
 //import { gameState } from "@/js/gameState.js";
 //import { elementsDOM } from "@/js/elementsDOM.js";
 

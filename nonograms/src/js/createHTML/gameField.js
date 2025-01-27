@@ -1,6 +1,6 @@
-import { createDOMElement } from "@/js/utils.js";
-import { getDOMElement, setDOMElement } from "@/js/elementsDOM.js";
-import { getGameState, setGameState } from "@/js/gameState.js";
+import { createDOMElement } from "../utils.js";
+import { getDOMElement, setDOMElement } from "../elementsDOM.js";
+import { getGameState, setGameState } from "../gameState.js";
 
 const clickActions = {
   0: {
@@ -52,9 +52,9 @@ export function createGameTable() {
       if (i === 0 && j === 0) {
         cell = createGameCell(null, true);
       } else if (j === 0) {
-        cell = createGameCell(gameClues.column, true);
-      } else if (i === 0) {
         cell = createGameCell(gameClues.row, true);
+      } else if (i === 0) {
+        cell = createGameCell(gameClues.column, true);
       } else {
         cell = createGameCell(gameCells[i - 1], false, i - 1, j - 1);
       }
@@ -70,15 +70,10 @@ export function createGameTable() {
 function renderGameClues(gameClues) {
   const gameCluesContent = getGameState("clues");
 
-  gameCluesContent.row.forEach((arr, index) => {
-    arr.forEach((num) => {
-      gameClues.column[index].textContent += num + " ";
-    });
-  });
-
-  gameCluesContent.column.forEach((arr, index) => {
-    arr.forEach((num) => {
-      gameClues.row[index].textContent += num + " ";
+  Object.entries(gameCluesContent).forEach(([key, value]) => {
+    const joinSymbol = key === "row" ? " " : "\n\n";
+    value.forEach((arr, index) => {
+      gameClues[key][index].textContent += arr.join(joinSymbol);
     });
   });
 }

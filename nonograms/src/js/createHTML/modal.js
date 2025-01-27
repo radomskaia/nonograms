@@ -1,5 +1,5 @@
-import { createActionButton, createDOMElement } from "@/js/utils.js";
-import { elementsDOM } from "@/js/elementsDOM.js";
+import { createActionButton, createDOMElement } from "../utils.js";
+import { elementsDOM } from "../elementsDOM.js";
 
 export function showModalWindow() {
   elementsDOM.modal.text.textContent = "END";

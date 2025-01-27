@@ -1,5 +1,5 @@
 //import { LEVELS } from "@/js/gameConstants.js";
-import { matrixPicture } from "@/js/matrixPicture.js";
+import { matrixPicture } from "./matrixPicture.js";
 //import { elementsDOM } from "@/js/elementsDOM.js";
 
 const gameState = {
