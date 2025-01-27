@@ -1,5 +1,5 @@
 export const matrixPicture = Object.freeze({
-  easy: {
+  5: {
     bat: [
       [0, 1, 0, 1, 0],
       [1, 1, 1, 1, 1],
@@ -57,7 +57,7 @@ export const matrixPicture = Object.freeze({
       [0, 1, 1, 1, 0],
     ],
   },
-  medium: {
+  10: {
     "question mark": [
       [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
       [0, 1, 1, 0, 0, 0, 0, 1, 1, 0],
@@ -119,7 +119,7 @@ export const matrixPicture = Object.freeze({
       [0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
     ],
   },
-  hard: {
+  15: {
     music: [
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
       [1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],

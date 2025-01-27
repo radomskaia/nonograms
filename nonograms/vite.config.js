@@ -20,10 +20,4 @@ export default defineConfig({
       plugins: [postcssImport(), autoprefixer()],
     },
   },
-  resolve: {
-    alias: {
-      //eslint-disable-next-line no-undef
-      "@": resolve(__dirname, "./src"),
-    },
-  },
 });

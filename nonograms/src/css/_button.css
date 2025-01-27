@@ -36,23 +36,6 @@
   cursor: auto;
 }
 
-.tabButton {
-  padding: 5px;
-  width: 100px;
-  text-transform: capitalize;
-  color: var(--dark);
-  background-color: var(--static-white);
-}
-
-input:disabled ~ .tabButton {
-  background-color: var(--static-white);
-  cursor: auto;
-}
-
-input:checked ~ .tabButton {
-  color: var(--static-white);
-  background-color: var(--dark);
-}
 
 @media (hover: hover) and (pointer: fine) {
   .actionButton:hover {
@@ -64,19 +47,5 @@ input:checked ~ .tabButton {
     color: var(--primary-alpha);
     background-color: var(--static-green-alpha);
     cursor: auto;
-  }
-
-  .tabButton:hover {
-    background-color: var(--primary-alpha);
-  }
-
-  input:disabled ~ .tabButton:hover {
-    background-color: var(--static-white);
-    cursor: auto;
-  }
-
-  input:checked ~ .tabButton:hover {
-    color: var(--static-white);
-    background-color: var(--dark);
   }
 }

@@ -1,0 +1,48 @@
+.tabButton {
+  padding: 5px;
+  width: 100px;
+  text-transform: capitalize;
+  color: var(--dark);
+  background-color: inherit;
+}
+
+input:disabled ~ .tabButton {
+  background-color: inherit;
+  cursor: auto;
+}
+
+input:checked ~ .tabButton {
+  color: var(--static-white);
+  background-color: var(--dark);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tabButton:hover {
+    background-color: var(--primary-alpha);
+  }
+
+  input:disabled ~ .tabButton:hover {
+    background-color: inherit;
+    cursor: auto;
+  }
+
+  input:checked ~ .tabButton:hover {
+    color: var(--static-white);
+    background-color: var(--dark);
+  }
+}
+
+.levelField {
+  margin-top: 15px;
+   border: solid 1px var(--primary);
+  border-radius: var(--border-radius);
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  text-align: center;
+  text-transform: uppercase;
+  color: inherit;
+   background-color: inherit;
+  padding-block: 5px;
+  padding-inline: 10px;
+}

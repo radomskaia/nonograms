@@ -4,7 +4,7 @@ import { matrixPicture } from "./matrixPicture.js";
 
 const gameState = {
   timer: 0,
-  levelMatrix: matrixPicture.easy.dog,
+  levelMatrix: matrixPicture["5"].scull,
   cellCount: 5,
   processMatrix: null,
   isPlaying: false,

@@ -1,11 +1,11 @@
 import { createDOMElement } from "../utils.js";
 
-//import { gameState } from "@/js/gameState.js";
-import { elementsDOM, getDOMElement } from "../elementsDOM.js";
+import { elementsDOM, getDOMElement, setDOMElement } from "../elementsDOM.js";
 import { CSS_CLASSES } from "../gameConstants.js";
 import { getGameState, setGameState } from "../gameState.js";
-import { createGameTable } from "../createHTML/gameField.js";
+import { createGameTable, renderGameClues } from "./gameField.js";
 import { calculateClues, createProcessMatrix } from "../matrix.js";
+import { matrixPicture } from "../matrixPicture.js";
 
 function createRadioButton(id) {
   const liElement = createDOMElement({
@@ -34,23 +34,41 @@ function createRadioButton(id) {
     if (inputElement.disabled) {
       return;
     }
-    updateLevel(id);
+    updateTab(id);
   });
   return liElement;
 }
 
-function updateLevel(id) {
+function updateTab(id) {
   const cellCount = getGameState("cellCount");
   if (cellCount === id) {
     return;
   }
   setGameState("cellCount", id);
-  createProcessMatrix();
+  updateDropList();
+  updateLevel();
   createGameTable();
-  calculateClues();
 }
 
-export function createLevelList(levels) {
+export function updateLevel() {
+  calculateClues();
+  createProcessMatrix();
+}
+
+export function createLevels(levels) {
+  const levelWrapper = createDOMElement({
+    tagName: "div",
+    classList: ["levelWrapper"],
+  });
+  const levelList = createLevelList(levels);
+  const levelDropList = createDropList();
+  updateDropList();
+  levelWrapper.append(levelList, levelDropList);
+  console.log(getDOMElement("levelButtons"));
+  return levelWrapper;
+}
+
+function createLevelList(levels) {
   const levelList = createDOMElement({
     tagName: "ul",
     classList: ["flex", "flex--justify-center", "flex_gap-20", "levelList"],
@@ -63,4 +81,58 @@ export function createLevelList(levels) {
   levelList.append(...Object.values(levelsButton));
 
   return levelList;
+}
+
+function createDropList() {
+  const levelSelect = createDOMElement({
+    tagName: "select",
+    classList: ["levelField"],
+    attributes: {
+      id: "level-picture",
+    },
+  });
+  const options = {};
+  const optionsElements = new Map();
+  Object.entries(matrixPicture).forEach(([key, value]) => {
+    options[key] = [];
+    Object.keys(value).forEach((name) => {
+      options[key].push(name);
+    });
+  });
+  Object.entries(options).forEach(([key, value]) => {
+    optionsElements.set(key, new Map());
+    value.forEach((item) => {
+      const optionEl = createDOMElement({
+        tagName: "option",
+        textContent: item,
+      });
+
+      optionsElements.get(key).set(item, optionEl);
+      levelSelect.append(optionEl);
+    });
+  });
+  setDOMElement("options", optionsElements);
+  console.log(optionsElements);
+  return levelSelect;
+}
+
+function updateDropList() {
+  const currLevel = getGameState("cellCount");
+  const options = getDOMElement("options");
+  options.forEach((value, key) => {
+    if (currLevel === +key) {
+      value.forEach((item) => {
+        item.classList.remove("display-none");
+      });
+      const firstElement = value.entries().next();
+      firstElement.value[1].selected = true;
+      setGameState("levelMatrix", matrixPicture[key][firstElement.value[0]]);
+      calculateClues();
+      createProcessMatrix();
+    } else {
+      value.forEach((item) => {
+        item.classList.add("display-none");
+      });
+    }
+  });
 }

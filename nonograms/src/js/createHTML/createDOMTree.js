@@ -1,6 +1,6 @@
 import { createDOMElement } from "../utils.js";
 import { createActionButtons } from "../createHTML/actionButtons.js";
-import { createLevelList } from "../createHTML/levelTabs.js";
+import { createLevels } from "../createHTML/levelTabs.js";
 import { LEVELS } from "../gameConstants.js";
 import { createModal } from "../createHTML/modal.js";
 import { createGameField } from "../createHTML/gameField.js";
@@ -66,7 +66,7 @@ export function createDOMTree() {
   allElements.buttonsWrapper = createDOMElement({
     classList: ["flex", "flex--align-justify-center", "flex_gap-10"],
   });
-  allElements.levelList = createLevelList(Object.values(LEVELS));
+  allElements.levelList = createLevels(Object.values(LEVELS));
   allElements.buttonsWrapper.append(
     allElements.levelList,
     ...createActionButtons({

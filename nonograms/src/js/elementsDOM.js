@@ -11,6 +11,7 @@ export const elementsDOM = {
   gameCells: null,
   gameClues: null,
   tbody: null,
+  options: null,
 };
 
 export function getDOMElement(element) {
