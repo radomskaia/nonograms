@@ -64,16 +64,16 @@ export function createGameTable() {
     setDOMElement("gameClues", gameClues);
     tbody.append(gameRow);
   }
-  renderGameClues(gameClues);
 }
 
-export function renderGameClues(gameClues) {
+export function renderGameClues() {
+  const gameCluesElements = getDOMElement("gameClues");
   const gameCluesContent = getGameState("clues");
 
   Object.entries(gameCluesContent).forEach(([key, value]) => {
     const joinSymbol = key === "row" ? " " : "\n\n";
     value.forEach((arr, index) => {
-      gameClues[key][index].textContent += arr.join(joinSymbol);
+      gameCluesElements[key][index].textContent = arr.join(joinSymbol);
     });
   });
 }
@@ -131,7 +131,6 @@ function compareMatrix(levelMatrix, processMatrix, i, j) {
   } else {
     correctCellCount--;
   }
-  console.log("correctCellCount", correctCellCount);
   setGameState("correctCellCount", correctCellCount);
   if (correctCellCount === levelMatrixSum) {
     console.log("WIN");

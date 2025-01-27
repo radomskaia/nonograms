@@ -6,7 +6,6 @@
 
 .cell {
   border: 1px solid var(--primary);
-  padding: 5px;
   width: 40px;
   height: 40px;
   background-color: inherit;
@@ -14,6 +13,7 @@
 }
 
 .cell:first-child {
+    padding: 5px;
   width: fit-content;
    word-spacing: 15px;
   text-align: end;
@@ -21,6 +21,7 @@
 
 .gameRow:first-child .cell{
   vertical-align: bottom;
+    padding: 5px;
   height: fit-content;
   white-space: pre;
 }

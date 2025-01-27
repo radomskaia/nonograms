@@ -2,9 +2,13 @@ import { createDOMElement } from "../utils.js";
 
 import { elementsDOM, getDOMElement, setDOMElement } from "../elementsDOM.js";
 import { CSS_CLASSES } from "../gameConstants.js";
-import { getGameState, setGameState } from "../gameState.js";
+import { getGameState, resetGameField, setGameState } from "../gameState.js";
 import { createGameTable, renderGameClues } from "./gameField.js";
-import { calculateClues, createProcessMatrix } from "../matrix.js";
+import {
+  calculateClues,
+  calculateLevelMatrixSum,
+  createProcessMatrix,
+} from "../matrix.js";
 import { matrixPicture } from "../matrixPicture.js";
 
 function createRadioButton(id) {
@@ -45,14 +49,16 @@ function updateTab(id) {
     return;
   }
   setGameState("cellCount", id);
+  createGameTable();
   updateDropList();
   updateLevel();
-  createGameTable();
 }
 
 export function updateLevel() {
   calculateClues();
   createProcessMatrix();
+  renderGameClues();
+  calculateLevelMatrixSum();
 }
 
 export function createLevels(levels) {
@@ -64,7 +70,6 @@ export function createLevels(levels) {
   const levelDropList = createDropList();
   updateDropList();
   levelWrapper.append(levelList, levelDropList);
-  console.log(getDOMElement("levelButtons"));
   return levelWrapper;
 }
 
@@ -91,6 +96,14 @@ function createDropList() {
       id: "level-picture",
     },
   });
+  levelSelect.addEventListener("change", (e) => {
+    setGameState(
+      "levelMatrix",
+      matrixPicture[getGameState("cellCount")][levelSelect.value],
+    );
+    updateLevel();
+    resetGameField();
+  });
   const options = {};
   const optionsElements = new Map();
   Object.entries(matrixPicture).forEach(([key, value]) => {
@@ -112,7 +125,6 @@ function createDropList() {
     });
   });
   setDOMElement("options", optionsElements);
-  console.log(optionsElements);
   return levelSelect;
 }
 
@@ -127,8 +139,7 @@ function updateDropList() {
       const firstElement = value.entries().next();
       firstElement.value[1].selected = true;
       setGameState("levelMatrix", matrixPicture[key][firstElement.value[0]]);
-      calculateClues();
-      createProcessMatrix();
+      updateLevel();
     } else {
       value.forEach((item) => {
         item.classList.add("display-none");

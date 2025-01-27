@@ -1,9 +1,9 @@
 import { createDOMElement } from "../utils.js";
-import { createActionButtons } from "../createHTML/actionButtons.js";
-import { createLevels } from "../createHTML/levelTabs.js";
+import { createActionButtons } from "./actionButtons.js";
+import { createLevels } from "./levelTabs.js";
 import { LEVELS } from "../gameConstants.js";
-import { createModal } from "../createHTML/modal.js";
-import { createGameField } from "../createHTML/gameField.js";
+import { createModal } from "./modal.js";
+import { createGameField } from "./gameField.js";
 
 /**
  * Creates and appends the DOM tree for the game interface.
@@ -63,10 +63,12 @@ export function createDOMTree() {
     allElements.settingsWrapper,
   );
 
+  allElements.fieldWrapper = createGameField();
   allElements.buttonsWrapper = createDOMElement({
     classList: ["flex", "flex--align-justify-center", "flex_gap-10"],
   });
   allElements.levelList = createLevels(Object.values(LEVELS));
+
   allElements.buttonsWrapper.append(
     allElements.levelList,
     ...createActionButtons({
@@ -76,8 +78,6 @@ export function createDOMTree() {
       solution: () => {},
     }),
   );
-
-  allElements.fieldWrapper = createGameField();
 
   allElements.container.append(
     allElements.flexDiv,
