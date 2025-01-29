@@ -68,7 +68,6 @@ export function createDOMTree() {
   allElements.levelList = createLevels(Object.values(LEVELS));
 
   allElements.buttonsWrapper.append(
-    allElements.levelList,
     ...createActionButtons({
       reset: resetGameField,
       save: saveGame,
@@ -80,6 +79,7 @@ export function createDOMTree() {
   allElements.container.append(
     allElements.flexDiv,
     allElements.buttonsWrapper,
+    allElements.levelList,
     allElements.fieldWrapper,
   );
 
