@@ -117,7 +117,7 @@ function leftButtonHandler(levelMatrix, processMatrix, i, j) {
 }
 
 function rightButtonHandler(levelMatrix, processMatrix, i, j) {
-  if (levelMatrix[i][j] === 0 && processMatrix[i][j] === 0) {
+  if (processMatrix[i][j] === 0) {
     return;
   }
   processMatrix[i][j] = 0;

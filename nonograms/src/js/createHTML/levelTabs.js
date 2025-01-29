@@ -59,6 +59,7 @@ export function updateLevel() {
   createProcessMatrix();
   calculateLevelMatrixSum();
   renderGameClues();
+  resetGameField();
 }
 
 export function createLevels(levels) {
@@ -104,7 +105,6 @@ function createDropList() {
       matrixPicture[getGameState("cellCount")][levelName],
     );
     updateLevel();
-    resetGameField();
   });
   const options = {};
   const optionsElements = new Map();
