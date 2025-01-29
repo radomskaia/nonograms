@@ -23,7 +23,6 @@ const gameState = {
   isEndGame: false,
   isSound: true,
   isLightTheme: false,
-  isSaved: false,
 };
 
 export function getGameState(parameter) {
@@ -34,8 +33,9 @@ export function getGameState(parameter) {
 }
 
 export function saveGame() {
-  if (gameState.isEndGame) {
+  if (getGameState("isEndGame")) {
     console.log("You cant save the game after solution");
+    return;
   }
   saveTimer();
   const currentGame = JSON.stringify(gameState);
@@ -44,38 +44,42 @@ export function saveGame() {
 
 export function continueGame() {
   stopTimer();
-  const savedGame = JSON.parse(window.localStorage.getItem("savedGame"));
   resetGameField();
-  if (gameState.cellCount !== savedGame.cellCount) {
-    gameState.cellCount = savedGame.cellCount;
+  const savedGame = JSON.parse(window.localStorage.getItem("savedGame"));
+  const isContinue = true;
+
+  if (getGameState("cellCount") !== savedGame.cellCount) {
+    setGameState("cellCount", savedGame.cellCount);
     getDOMElement(`levelInput${savedGame.cellCount}`).checked = true;
     updateTab(savedGame.cellCount);
     createGameTable();
   }
-  if (gameState.levelName !== savedGame.levelName) {
-    gameState.levelName = savedGame.levelName;
-    gameState.levelMatrix = savedGame.levelMatrix;
-    gameState.levelMatrixSum = savedGame.levelMatrixSum;
-    gameState.clues = savedGame.clues;
-    updateDropList(true);
+
+  if (getGameState("levelName") !== savedGame.levelName) {
+    setGameState("levelName", savedGame.levelName);
+    setGameState("levelMatrix", savedGame.levelMatrix);
+    setGameState("levelMatrixSum", savedGame.levelMatrixSum);
+    setGameState("clues", savedGame.clues);
+    updateDropList(isContinue);
     renderGameClues();
   }
 
-  gameState.processMatrix = savedGame.processMatrix;
-  gameState.correctCellCount = savedGame.correctCellCount;
-  gameState.timer = savedGame.timer;
+  setGameState("processMatrix", savedGame.processMatrix);
 
+  setGameState("correctCellCount", savedGame.correctCellCount);
+  setGameState("timer", savedGame.timer);
+  console.log("savedGame.timer", savedGame.timer);
   updateTimer(savedGame.timer, isContinue);
   const gameCells = getDOMElement("gameCells");
   savedGame.processMatrix.forEach((row, i) => {
     row.forEach((cell, j) => {
       if (cell === 1) {
         gameCells[i][j].classList.add("filledCell");
-        gameCells[i][j].classList.remove("crossedCell");
+      } else if (cell === 2) {
+        gameCells[i][j].classList.add("crossedCell");
       }
     });
   });
-  gameState.isSaved = false;
 }
 
 export function setGameState(parameter, value) {
@@ -89,7 +93,7 @@ export function setGameState(parameter, value) {
 }
 
 export function changeTheme() {
-  gameState.isLightTheme = !gameState.isLightTheme;
+  setGameState("isLightTheme", !getGameState("isLightTheme"));
   document.body.toggleAttribute("data-theme", gameState.isLightTheme);
 }
 
@@ -97,23 +101,26 @@ export function resetGameField() {
   stopTimer();
   resetTimer();
   const gameCells = getDOMElement("gameCells");
-  gameState.processMatrix.forEach((row, i, arr) => {
+  const processMatrix = getGameState("processMatrix");
+  processMatrix.forEach((row, i, arr) => {
     row.forEach((cell, j) => {
       arr[i][j] = 0;
       gameCells[i][j].classList.remove("crossedCell");
       gameCells[i][j].classList.remove("filledCell");
     });
   });
-  gameState.correctCellCount = 0;
-  gameState.isEndGame = false;
+  setGameState("correctCellCount", 0);
+  setGameState("isEndGame", false);
   setGameState("isTimer", false);
 }
 
 export function showSolution() {
   const gameCells = getDOMElement("gameCells");
-  gameState.levelMatrix.forEach((row, i) => {
+  const levelMatrix = getGameState("levelMatrix");
+  const processMatrix = getGameState("processMatrix");
+  levelMatrix.forEach((row, i) => {
     row.forEach((cell, j) => {
-      gameState.processMatrix[i][j] = 0;
+      processMatrix[i][j] = 0;
       if (cell === 1) {
         gameCells[i][j].classList.add("filledCell");
         gameCells[i][j].classList.remove("crossedCell");
@@ -123,8 +130,8 @@ export function showSolution() {
       }
     });
   });
-  gameState.isEndGame = true;
-  gameState.correctCellCount = 0;
+  setGameState("isEndGame", true);
+  setGameState("correctCellCount", 0);
   stopTimer();
 }
 
