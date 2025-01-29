@@ -1,6 +1,4 @@
 import { CSS_CLASSES } from "./gameConstants.js";
-//import { gameState } from "@/js/gameState.js";
-//import { elementsDOM } from "@/js/elementsDOM.js";
 
 /**
  * Creates and returns a new DOM element with the specified properties.
@@ -32,30 +30,7 @@ export function createDOMElement({
 
   return element;
 }
-//
-//export function removeOutputCSS() {
-//  elementsDOM.outputField.classList.remove(CSS_CLASSES.MISTAKE);
-//  elementsDOM.outputField.classList.remove(CSS_CLASSES.WIN_ROUND);
-//}
-//
-//export function resetGame(isNew) {
-//  gameState.isMistake = false;
-//  elementsDOM.roundCounter.textContent = gameState.roundCounter;
-//  elementsDOM.actionButtons.repeat.disabled = false;
-//  removeOutputCSS();
-//
-//  Object.entries(elementsDOM.actionButtons).forEach(([key, value]) => {
-//    const isButtonHide = isNew
-//      ? key !== "start"
-//      : key === "start" || key === "next";
-//    if (isButtonHide) {
-//      value.classList.add(CSS_CLASSES.HIDDEN);
-//      return;
-//    }
-//    value.classList.remove(CSS_CLASSES.HIDDEN);
-//  });
-//}
-//
+
 export function createActionButton(buttonName, callBack, isHighlight = false) {
   const button = createDOMElement({
     tagName: "button",
@@ -67,12 +42,4 @@ export function createActionButton(buttonName, callBack, isHighlight = false) {
   }
   button.addEventListener("click", callBack);
   return button;
-}
-
-export function disabledButtons(isDisabled, buttonsArr) {
-  buttonsArr.forEach((buttonsList) => {
-    Object.values(buttonsList).forEach((button) => {
-      button.disabled = isDisabled;
-    });
-  });
 }

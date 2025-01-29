@@ -25,14 +25,6 @@ export function createModal() {
   modalText = createDOMElement({
     tagName: "p",
   });
-  //const modalText2 = createDOMElement({
-  //  tagName: "p",
-  //  textContent: "Simon says: ",
-  //});
-  //const secretWord = createDOMElement({
-  //  tagName: "strong",
-  ////});
-  //modalText2.append(secretWord);
 
   modal.append(modalText, modalButton);
 

@@ -1,5 +1,4 @@
 const elementsDOM = {
-  //actionButtons: null,
   gameCells: null,
   gameClues: null,
   timerMinutes: null,
