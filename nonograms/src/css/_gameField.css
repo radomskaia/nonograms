@@ -24,6 +24,7 @@
   vertical-align: bottom;
   padding: 5px;
   height: fit-content;
+  line-height: 1;
   white-space: pre;
 }
 

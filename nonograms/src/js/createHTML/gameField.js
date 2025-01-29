@@ -95,6 +95,10 @@ function createGameCell(arr, isHeader, i = 0, j = 0) {
   }
 
   cell.addEventListener("mousedown", (event) => {
+    const isEndGame = getGameState("isEndGame");
+    if (isEndGame) {
+      return;
+    }
     const levelMatrix = getGameState("levelMatrix");
     const processMatrix = getGameState("processMatrix");
     if (event.button in clickActions) {
@@ -135,6 +139,7 @@ function compareMatrix(levelMatrix, processMatrix, i, j) {
   setGameState("correctCellCount", correctCellCount);
   console.log(correctCellCount);
   if (correctCellCount === levelMatrixSum) {
+    setGameState("isEndGame", true);
     console.log("WIN");
     showModalWindow();
   }

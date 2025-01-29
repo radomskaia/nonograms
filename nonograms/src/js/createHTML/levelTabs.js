@@ -70,6 +70,7 @@ export function createLevels(levels) {
   const levelList = createLevelList(levels);
   const levelDropList = createDropList();
   updateDropList();
+  updateLevel();
   levelWrapper.append(levelList, levelDropList);
   return levelWrapper;
 }
@@ -150,7 +151,6 @@ export function updateDropList(isSaved = false) {
       const levelName = firstElement.value[0];
       setGameState("levelMatrix", matrixPicture[key][levelName]);
       setGameState("levelName", levelName);
-      updateLevel();
     } else {
       value.forEach((item) => {
         item.classList.add("display-none");

@@ -13,7 +13,7 @@ const gameState = {
   correctCellCount: 0,
   clues: null,
   isPlaying: false,
-  isShowSolution: false,
+  isEndGame: false,
   isSound: true,
   isLightTheme: false,
   isSaved: false,
@@ -27,7 +27,7 @@ export function getGameState(parameter) {
 }
 
 export function saveGame() {
-  if (gameState.isShowSolution) {
+  if (gameState.isEndGame) {
     console.log("You cant save the game after solution");
   }
   const currentGame = JSON.stringify(gameState);
@@ -94,6 +94,7 @@ export function resetGameField() {
     });
   });
   gameState.correctCellCount = 0;
+  gameState.isEndGame = false;
 }
 
 export function showSolution() {
@@ -110,7 +111,7 @@ export function showSolution() {
       }
     });
   });
-  gameState.isShowSolution = true;
+  gameState.isEndGame = true;
   gameState.correctCellCount = 0;
 }
 
