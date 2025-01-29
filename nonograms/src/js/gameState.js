@@ -1,7 +1,7 @@
 import { matrixPicture } from "./matrixPicture.js";
 import { getDOMElement } from "./elementsDOM.js";
 import { createGameTable, renderGameClues } from "./createHTML/gameField.js";
-import { updateDropList } from "./createHTML/levelTabs.js";
+import { updateDropList, updateTab } from "./createHTML/levelTabs.js";
 
 const gameState = {
   timer: 0,
@@ -40,8 +40,8 @@ export function continueGame() {
   resetGameField();
   if (gameState.cellCount !== savedGame.cellCount) {
     gameState.cellCount = savedGame.cellCount;
-    const { [savedGame.cellCount]: levelTab } = getDOMElement("levelButtons");
-    levelTab.checked = true;
+    getDOMElement(`levelInput${savedGame.cellCount}`).checked = true;
+    updateTab(savedGame.cellCount);
     createGameTable();
   }
   if (gameState.levelName !== savedGame.levelName) {

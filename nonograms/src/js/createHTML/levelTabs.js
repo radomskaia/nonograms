@@ -1,6 +1,6 @@
 import { createDOMElement } from "../utils.js";
 
-import { elementsDOM, getDOMElement, setDOMElement } from "../elementsDOM.js";
+import { getDOMElement, setDOMElement } from "../elementsDOM.js";
 import { CSS_CLASSES } from "../gameConstants.js";
 import { getGameState, resetGameField, setGameState } from "../gameState.js";
 import { createGameTable, renderGameClues } from "./gameField.js";
@@ -24,7 +24,9 @@ function createRadioButton(id) {
       id: id,
     },
   });
-  elementsDOM.levelButtons[id] = inputElement;
+  if (id === 5) {
+    inputElement.checked = true;
+  }
   const labelElement = createDOMElement({
     tagName: "label",
     classList: ["button", "tabButton"],
@@ -33,11 +35,9 @@ function createRadioButton(id) {
       for: id,
     },
   });
+  setDOMElement(`levelInput${id}`, inputElement);
   liElement.append(inputElement, labelElement);
   liElement.addEventListener("click", () => {
-    if (inputElement.disabled) {
-      return;
-    }
     updateTab(id);
   });
   return liElement;

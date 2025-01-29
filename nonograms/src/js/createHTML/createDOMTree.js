@@ -11,6 +11,7 @@ import {
   saveGame,
   showSolution,
 } from "../gameState.js";
+import { setDOMElement } from "../elementsDOM.js";
 
 /**
  * Creates and appends the DOM tree for the game interface.
@@ -43,14 +44,27 @@ export function createDOMTree() {
   allElements.timerWrapper = createDOMElement({
     classList: ["flex", "flex--align-justify-center", "flex_gap-10"],
   });
-
-  allElements.timer = createDOMElement({
+  allElements.timerMin = createDOMElement({
     tagName: "p",
-    textContent: "XX : XX",
+    textContent: "00",
+    //classList: ["minutes"],
+  });
+  allElements.timerSeparator = createDOMElement({
+    tagName: "p",
+    textContent: ":",
     classList: ["flex", "flex--align-justify-center", "flex_gap-10"],
   });
+  allElements.timerSec = createDOMElement({
+    tagName: "p",
+    textContent: "00",
+    //classList: ["minutes"],
+  });
 
-  allElements.timerWrapper.append(allElements.timer);
+  allElements.timerWrapper.append(
+    allElements.timerMin,
+    allElements.timerSeparator,
+    allElements.timerSec,
+  );
 
   allElements.settingsWrapper = createDOMElement({
     classList: ["flex", "flex--align-justify-center", "flex_gap-10"],
@@ -94,4 +108,7 @@ export function createDOMTree() {
 
   allElements.modal = createModal();
   document.body.append(allElements.container, allElements.modal.modal);
+
+  setDOMElement("timerMin", allElements.timerMin);
+  setDOMElement("timerSec", allElements.timerSec);
 }

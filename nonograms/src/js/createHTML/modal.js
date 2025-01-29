@@ -1,5 +1,5 @@
 import { createActionButton, createDOMElement } from "../utils.js";
-import { elementsDOM } from "../elementsDOM.js";
+
 let modal, modalText;
 export function showModalWindow() {
   modalText.textContent = "Great! You have solved the nonogram!";

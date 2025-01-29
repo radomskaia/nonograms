@@ -1,17 +1,13 @@
-import { LEVELS } from "./gameConstants.js";
-
-export const elementsDOM = {
-  actionButtons: null,
-  levelButtons: {
-    [LEVELS[0]]: {},
-    [LEVELS[1]]: {},
-    [LEVELS[2]]: {},
-  },
-  modal: {},
+const elementsDOM = {
+  //actionButtons: null,
   gameCells: null,
   gameClues: null,
-  tbody: null,
   options: null,
+  timerMin: null,
+  timerSec: null,
+  levelInput5: null,
+  levelInput10: null,
+  levelInput15: null,
 };
 
 export function getDOMElement(element) {

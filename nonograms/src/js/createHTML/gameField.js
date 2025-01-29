@@ -16,23 +16,22 @@ const clickActions = {
   },
 };
 
+let tbody;
+
 export function createGameField() {
-  const elements = {};
-  elements.fieldWrapper = createDOMElement({
+  const fieldWrapper = createDOMElement({
     tagName: "table",
     classList: ["gameTable"],
   });
-  elements.tbody = createDOMElement({
+  tbody = createDOMElement({
     tagName: "tbody",
   });
-  elements.fieldWrapper.append(elements.tbody);
-  setDOMElement("tbody", elements.tbody);
+  fieldWrapper.append(tbody);
   createGameTable();
-  return elements.fieldWrapper;
+  return fieldWrapper;
 }
 
 export function createGameTable() {
-  const tbody = getDOMElement("tbody");
   tbody.replaceChildren();
   const cellCount = getGameState("cellCount");
   const gameCells = [];
