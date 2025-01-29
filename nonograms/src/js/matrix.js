@@ -1,6 +1,6 @@
 import { getGameState, setGameState } from "./gameState.js";
 
-export function createProcessMatrix() {
+function createProcessMatrix() {
   const cellCount = getGameState("cellCount");
   const gameMatrix = Array.from({ length: cellCount }, () =>
     Array(cellCount).fill(0),
@@ -8,14 +8,14 @@ export function createProcessMatrix() {
   setGameState("processMatrix", gameMatrix);
 }
 
-export function calculateLevelMatrixSum() {
+function calculateLevelMatrixSum() {
   const levelMatrix = getGameState("levelMatrix");
   const sum = levelMatrix.reduce((a, b) => a + b.reduce((a, b) => a + b, 0), 0);
   setGameState("levelMatrixSum", sum);
   console.log("sum", sum);
 }
 
-export function calculateClues() {
+function calculateClues() {
   const levelMatrix = getGameState("levelMatrix");
   const length = levelMatrix.length;
   const clues = {
@@ -57,4 +57,10 @@ export function calculateClues() {
     }
   });
   setGameState("clues", clues);
+}
+
+export function calculateMatrix() {
+  calculateClues();
+  createProcessMatrix();
+  calculateLevelMatrixSum();
 }

@@ -2,6 +2,7 @@ import { createDOMElement } from "../utils.js";
 import { getDOMElement, setDOMElement } from "../elementsDOM.js";
 import { getGameState, setGameState } from "../gameState.js";
 import { showModalWindow } from "./modal.js";
+import { saveTimer, startTimer, stopTimer } from "./timer.js";
 
 const clickActions = {
   0: {
@@ -94,17 +95,7 @@ function createGameCell(arr, isHeader, i = 0, j = 0) {
   }
 
   cell.addEventListener("mousedown", (event) => {
-    const isEndGame = getGameState("isEndGame");
-    if (isEndGame) {
-      return;
-    }
-    const levelMatrix = getGameState("levelMatrix");
-    const processMatrix = getGameState("processMatrix");
-    if (event.button in clickActions) {
-      cell.classList.toggle(clickActions[event.button].toggle);
-      cell.classList.remove(clickActions[event.button].remove);
-      clickActions[event.button].handler(levelMatrix, processMatrix, i, j);
-    }
+    mousedownHandler(event, cell, i, j);
   });
 
   cell.addEventListener("contextmenu", (event) => {
@@ -114,32 +105,64 @@ function createGameCell(arr, isHeader, i = 0, j = 0) {
   return cell;
 }
 
-function leftButtonHandler(levelMatrix, processMatrix, i, j) {
-  processMatrix[i][j] = processMatrix[i][j] === 0 ? 1 : 0;
-  compareMatrix(levelMatrix, processMatrix, i, j);
-}
-
-function rightButtonHandler(levelMatrix, processMatrix, i, j) {
-  if (processMatrix[i][j] === 0) {
+function mousedownHandler(event, cell, i, j) {
+  const isEndGame = getGameState("isEndGame");
+  const isTimer = getGameState("isTimer");
+  if (isEndGame) {
     return;
   }
-  processMatrix[i][j] = 0;
-  compareMatrix(levelMatrix, processMatrix, i, j);
+  if (!isTimer) {
+    startTimer();
+    setGameState("isTimer", true);
+  }
+  const levelMatrix = getGameState("levelMatrix");
+  const processMatrix = getGameState("processMatrix");
+  if (event.button in clickActions) {
+    cell.classList.toggle(clickActions[event.button].toggle);
+    cell.classList.remove(clickActions[event.button].remove);
+    clickActions[event.button].handler(levelMatrix[i][j], processMatrix, i, j);
+  }
 }
 
-function compareMatrix(levelMatrix, processMatrix, i, j) {
+function leftButtonHandler(correctValue, processMatrix, i, j) {
+  processMatrix[i][j] = processMatrix[i][j] === 1 ? 0 : 1;
+  changeCorrectCount(correctValue, processMatrix[i][j]);
+}
+
+function rightButtonHandler(correctValue, processMatrix, i, j) {
+  const oldValue = processMatrix[i][j];
+
+  processMatrix[i][j] = processMatrix[i][j] === 2 ? 0 : 2;
+
+  if (oldValue === 1) {
+    changeCorrectCount(correctValue, processMatrix[i][j]);
+  }
+}
+
+function changeCorrectCount(correctValue, userValue) {
   let correctCellCount = getGameState("correctCellCount");
-  const levelMatrixSum = getGameState("levelMatrixSum");
-  if (levelMatrix[i][j] === processMatrix[i][j]) {
+
+  if (userValue === 2) {
+    userValue = 0;
+  }
+  if (correctValue === userValue) {
     correctCellCount++;
   } else {
     correctCellCount--;
   }
   setGameState("correctCellCount", correctCellCount);
-  console.log(correctCellCount);
-  if (correctCellCount === levelMatrixSum) {
-    setGameState("isEndGame", true);
-    console.log("WIN");
-    showModalWindow();
+  checkGameOver(correctCellCount);
+}
+
+function checkGameOver(correctCellCount) {
+  const levelMatrixSum = getGameState("levelMatrixSum");
+  if (correctCellCount !== levelMatrixSum) {
+    return;
   }
+
+  stopTimer();
+  saveTimer();
+  setGameState("isEndGame", true);
+  showModalWindow();
+  setGameState("isTimer", false);
 }

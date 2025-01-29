@@ -1,8 +1,10 @@
 import { createActionButton, createDOMElement } from "../utils.js";
+import { getGameState } from "../gameState.js";
 
 let modal, modalText;
 export function showModalWindow() {
-  modalText.textContent = "Great! You have solved the nonogram!";
+  const timer = getGameState("timer");
+  modalText.textContent = `Great! You have solved the nonogram in ${timer} seconds!`;
   modal.showModal();
 }
 

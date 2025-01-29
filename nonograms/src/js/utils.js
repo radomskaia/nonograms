@@ -68,14 +68,11 @@ export function createActionButton(buttonName, callBack, isHighlight = false) {
   button.addEventListener("click", callBack);
   return button;
 }
-//
-//export function disabledButtons(isDisabled, buttonsArr) {
-//  buttonsArr.forEach((buttonsList) => {
-//    Object.values(buttonsList).forEach((button) => {
-//      if (button.textContent === "Repeat the sequence" && gameState.isMistake) {
-//        return;
-//      }
-//      button.disabled = isDisabled;
-//    });
-//  });
-//}
+
+export function disabledButtons(isDisabled, buttonsArr) {
+  buttonsArr.forEach((buttonsList) => {
+    Object.values(buttonsList).forEach((button) => {
+      button.disabled = isDisabled;
+    });
+  });
+}

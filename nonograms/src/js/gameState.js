@@ -2,9 +2,16 @@ import { matrixPicture } from "./matrixPicture.js";
 import { getDOMElement } from "./elementsDOM.js";
 import { createGameTable, renderGameClues } from "./createHTML/gameField.js";
 import { updateDropList, updateTab } from "./createHTML/levelTabs.js";
+import {
+  resetTimer,
+  saveTimer,
+  stopTimer,
+  updateTimer,
+} from "./createHTML/timer.js";
 
 const gameState = {
   timer: 0,
+  isTimer: false,
   cellCount: 5,
   levelMatrix: matrixPicture["5"].scull,
   levelName: "scull",
@@ -30,12 +37,13 @@ export function saveGame() {
   if (gameState.isEndGame) {
     console.log("You cant save the game after solution");
   }
+  saveTimer();
   const currentGame = JSON.stringify(gameState);
   window.localStorage.setItem("savedGame", currentGame);
-  gameState.isSaved = true;
 }
 
 export function continueGame() {
+  stopTimer();
   const savedGame = JSON.parse(window.localStorage.getItem("savedGame"));
   resetGameField();
   if (gameState.cellCount !== savedGame.cellCount) {
@@ -57,6 +65,7 @@ export function continueGame() {
   gameState.correctCellCount = savedGame.correctCellCount;
   gameState.timer = savedGame.timer;
 
+  updateTimer(savedGame.timer, isContinue);
   const gameCells = getDOMElement("gameCells");
   savedGame.processMatrix.forEach((row, i) => {
     row.forEach((cell, j) => {
@@ -85,6 +94,8 @@ export function changeTheme() {
 }
 
 export function resetGameField() {
+  stopTimer();
+  resetTimer();
   const gameCells = getDOMElement("gameCells");
   gameState.processMatrix.forEach((row, i, arr) => {
     row.forEach((cell, j) => {
@@ -95,6 +106,7 @@ export function resetGameField() {
   });
   gameState.correctCellCount = 0;
   gameState.isEndGame = false;
+  setGameState("isTimer", false);
 }
 
 export function showSolution() {
@@ -113,6 +125,7 @@ export function showSolution() {
   });
   gameState.isEndGame = true;
   gameState.correctCellCount = 0;
+  stopTimer();
 }
 
 //function gameReducer(state = gameState, action) {

@@ -6,6 +6,7 @@
 @import "css/_media-queries.css";
 @import "css/_gameField.css";
 @import "css/_levelTabs.css";
+@import "css/_timer.css";
 
 /* base */
 *,
