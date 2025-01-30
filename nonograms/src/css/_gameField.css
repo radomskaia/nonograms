@@ -1,13 +1,14 @@
 .gameTable {
   border: 3px solid var(--primary);
   border-collapse: collapse;
+  font-size: 1.6rem;
   background-color: var(--content-background);
 }
 
 .cell {
   border: 1px solid var(--primary);
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   background-color: inherit;
   transition: all 0.2s ease-in-out
 }

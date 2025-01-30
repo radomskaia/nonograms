@@ -6,23 +6,24 @@ import { createGameTable, renderGameClues } from "./gameField.js";
 import { getGameState, setGameState } from "../gameState.js";
 import { gamesData } from "../gamesData.js";
 import { CSS_CLASSES, DOM_ELEMENTS, GAME_STATES } from "../gameConstants.js";
+import { calculateMatrix } from "../matrix.js";
+
+const options = {
+  settings: {
+    sound: () => {},
+    "change theme": changeTheme,
+    "record List": () => {},
+  },
+  actions: {
+    reset: resetGameField,
+    save: saveGame,
+    continue: continueGame,
+    solution: showSolution,
+    "random game": randomGame,
+  },
+};
 
 export function createButtonsWrapper(type) {
-  const options = {
-    settings: {
-      sound: () => {},
-      "change theme": changeTheme,
-      "record List": () => {},
-    },
-    actions: {
-      reset: resetGameField,
-      save: saveGame,
-      continue: continueGame,
-      solution: showSolution,
-      "random game": () => {},
-    },
-  };
-
   const wrapper = createDOMElement({
     classList: ["flex", "flex--align-justify-center", "flex_gap-10"],
   });
@@ -70,7 +71,7 @@ function continueGame() {
   });
 }
 
-function updateFromObj(obj) {
+function updateFromObj(obj, isContinue = true) {
   stopTimer();
 
   if (getGameState(GAME_STATES.size) !== obj[GAME_STATES.size]) {
@@ -80,7 +81,7 @@ function updateFromObj(obj) {
     updateTab(obj[GAME_STATES.size]);
     createGameTable();
   }
-  resetGameField();
+  resetGameField(!isContinue);
   if (getGameState(GAME_STATES.levelName) !== obj[GAME_STATES.levelName]) {
     setStatesFromObj(
       [
@@ -92,6 +93,10 @@ function updateFromObj(obj) {
       obj,
     );
     updateDropList(true);
+    if (!isContinue) {
+      calculateMatrix();
+    }
+
     renderGameClues();
   }
 }
@@ -108,9 +113,17 @@ function changeTheme() {
   setGameState(GAME_STATES.isLightTheme, isLightTheme);
 }
 
-export function resetGameField() {
+export function resetGameField(isRandom = false) {
   stopTimer();
   resetTimer();
+  setGameState(GAME_STATES.correctCount, 0);
+  setGameState(GAME_STATES.isEndGame, false);
+  setGameState(GAME_STATES.isTimer, false);
+
+  if (isRandom) {
+    return;
+  }
+
   const gameCells = getDOMElement(DOM_ELEMENTS.gameCells);
   const userMatrix = getGameState(GAME_STATES.userMatrix);
   userMatrix.forEach((row, i, arr) => {
@@ -120,9 +133,6 @@ export function resetGameField() {
       gameCells[i][j].classList.remove(CSS_CLASSES.filled);
     });
   });
-  setGameState(GAME_STATES.correctCount, 0);
-  setGameState(GAME_STATES.isEndGame, false);
-  setGameState(GAME_STATES.isTimer, false);
 }
 
 function showSolution() {
@@ -144,4 +154,19 @@ function showSolution() {
   setGameState(GAME_STATES.isEndGame, true);
   setGameState(GAME_STATES.correctCount, 0);
   stopTimer();
+}
+
+function randomGame() {
+  const currLevel = getGameState(GAME_STATES.levelName);
+  let newLevel = currLevel;
+  let index;
+  while (currLevel === newLevel) {
+    index = Math.floor(Math.random() * gamesData.length);
+    newLevel = gamesData[index].name;
+  }
+  const data = gamesData[index];
+
+  updateFromObj(data, false);
+
+  updateTab(data.size);
 }

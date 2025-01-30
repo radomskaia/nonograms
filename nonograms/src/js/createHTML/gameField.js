@@ -69,9 +69,6 @@ export function createGameTable() {
 }
 
 export function renderGameClues() {
-  const gameCluesElements = getDOMElement("gameClues");
-  const gameCluesContent = getGameState("clues");
-
   const gameCluesElements = getDOMElement(DOM_ELEMENTS.gameClues);
   const gameCluesContent = getGameState(GAME_STATES.clues);
   Object.entries(gameCluesContent).forEach(([key, value]) => {
