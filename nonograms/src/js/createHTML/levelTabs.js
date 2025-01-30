@@ -2,10 +2,11 @@ import { createDOMElement } from "../utils.js";
 
 import { setDOMElement } from "../elementsDOM.js";
 import { CSS_CLASSES } from "../gameConstants.js";
-import { getGameState, resetGameField, setGameState } from "../gameState.js";
+import { getGameState, setGameState } from "../gameState.js";
 import { createGameTable, renderGameClues } from "./gameField.js";
 import { calculateMatrix } from "../matrix.js";
 import { gamesData } from "../gamesData.js";
+import { resetGameField } from "./actionButtons.js";
 
 const options = new Map();
 

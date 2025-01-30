@@ -1,16 +1,9 @@
 import { createDOMElement } from "../utils.js";
-import { createActionButtons } from "./actionButtons.js";
+import { createButtonsWrapper } from "./actionButtons.js";
 import { createLevels } from "./levelTabs.js";
 import { LEVELS } from "../gameConstants.js";
 import { createModal } from "./modal.js";
 import { createGameField } from "./gameField.js";
-import {
-  changeTheme,
-  continueGame,
-  resetGameField,
-  saveGame,
-  showSolution,
-} from "../gameState.js";
 import { createTimer } from "./timer.js";
 
 /**
@@ -43,38 +36,18 @@ export function createDOMTree() {
 
   allElements.timerWrapper = createTimer();
 
-  allElements.settingsWrapper = createDOMElement({
-    classList: ["flex", "flex--align-justify-center", "flex_gap-10"],
-  });
+  allElements.settingsWrapper = createButtonsWrapper("settings");
 
-  allElements.settingsWrapper.append(
-    ...createActionButtons({
-      sound: () => {},
-      theme: changeTheme,
-      recordList: () => {},
-    }),
-  );
+  allElements.buttonsWrapper = createButtonsWrapper("actions");
 
   allElements.flexDiv.append(
     allElements.headerPrimary,
     allElements.timerWrapper,
     allElements.settingsWrapper,
   );
-
   allElements.fieldWrapper = createGameField();
-  allElements.buttonsWrapper = createDOMElement({
-    classList: ["flex", "flex--align-justify-center", "flex_gap-10"],
-  });
-  allElements.levelList = createLevels(Object.values(LEVELS));
 
-  allElements.buttonsWrapper.append(
-    ...createActionButtons({
-      reset: resetGameField,
-      save: saveGame,
-      continue: continueGame,
-      solution: showSolution,
-    }),
-  );
+  allElements.levelList = createLevels(Object.values(LEVELS));
 
   allElements.container.append(
     allElements.flexDiv,
