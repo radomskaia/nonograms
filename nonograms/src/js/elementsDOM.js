@@ -1,11 +1,13 @@
+import { DOM_ELEMENTS } from "./gameConstants.js";
+
 const elementsDOM = {
-  gameCells: null,
-  gameClues: null,
-  timerMinutes: null,
-  timerSeconds: null,
-  levelInput5: null,
-  levelInput10: null,
-  levelInput15: null,
+  [DOM_ELEMENTS.gameCells]: null,
+  [DOM_ELEMENTS.gameClues]: null,
+  [DOM_ELEMENTS.timerMinutes]: null,
+  [DOM_ELEMENTS.timerSeconds]: null,
+  [DOM_ELEMENTS.levelInput5]: null,
+  [DOM_ELEMENTS.levelInput10]: null,
+  [DOM_ELEMENTS.levelInput15]: null,
 };
 
 export function getDOMElement(element) {

@@ -1,7 +1,7 @@
 import { createDOMElement } from "../utils.js";
 
 import { setDOMElement } from "../elementsDOM.js";
-import { CSS_CLASSES } from "../gameConstants.js";
+import { CSS_CLASSES, GAME_STATES } from "../gameConstants.js";
 import { getGameState, setGameState } from "../gameState.js";
 import { createGameTable, renderGameClues } from "./gameField.js";
 import { calculateMatrix } from "../matrix.js";
@@ -42,7 +42,7 @@ function createRadioButton(id) {
   });
   const inputElement = createDOMElement({
     tagName: "input",
-    classList: [CSS_CLASSES.HIDDEN],
+    classList: [CSS_CLASSES.displayNone],
     attributes: {
       type: "radio",
       name: "level",
@@ -86,28 +86,28 @@ function createDropList() {
       tagName: "option",
       textContent: name,
     });
-    options.get(name).set("element", optionEl);
-    options.get(name).set("size", size);
-    options.get(name).set("index", index);
+    options.get(name).set(GAME_STATES.element, optionEl);
+    options.get(name).set(GAME_STATES.size, size);
+    options.get(name).set(GAME_STATES.index, index);
     dropList.append(optionEl);
   });
   return dropList;
 }
 
 function dropListHandler(levelName) {
-  const dataIndex = options.get(levelName).get("index");
-  setGameState("levelName", levelName);
+  const dataIndex = options.get(levelName).get(GAME_STATES.index);
+  setGameState(GAME_STATES.levelName, levelName);
 
-  setGameState("levelMatrix", gamesData[dataIndex].matrix);
+  setGameState(GAME_STATES.levelMatrix, gamesData[dataIndex].matrix);
   updateLevel();
 }
 
 export function updateTab(id) {
-  const size = getGameState("size");
+  const size = getGameState(GAME_STATES.size);
   if (size === id) {
     return;
   }
-  setGameState("size", id);
+  setGameState(GAME_STATES.size, id);
   createGameTable();
   updateDropList();
   updateLevel();
@@ -120,20 +120,20 @@ export function updateLevel() {
 }
 
 export function updateDropList(isContinue = false) {
-  const currLevel = getGameState("size");
-  const gameName = getGameState("levelName");
+  const currLevel = getGameState(GAME_STATES.size);
+  const gameName = getGameState(GAME_STATES.levelName);
   let lastSize;
   options.forEach((data, name) => {
-    const index = data.get("index");
-    const size = data.get("size");
-    const element = data.get("element");
+    const index = data.get(GAME_STATES.index);
+    const size = data.get(GAME_STATES.size);
+    const element = data.get(GAME_STATES.element);
 
     if (currLevel !== size) {
-      element.classList.add("display-none");
+      element.classList.add(CSS_CLASSES.displayNone);
       return;
     }
 
-    element.classList.remove("display-none");
+    element.classList.remove(CSS_CLASSES.displayNone);
 
     if (isContinue && name === gameName) {
       element.selected = true;
@@ -145,7 +145,7 @@ export function updateDropList(isContinue = false) {
       return;
     }
     element.selected = true;
-    setGameState("levelMatrix", gamesData[index].matrix);
-    setGameState("levelName", name);
+    setGameState(GAME_STATES.levelMatrix, gamesData[index].matrix);
+    setGameState(GAME_STATES.levelName, name);
   });
 }

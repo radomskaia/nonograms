@@ -1,6 +1,7 @@
 import { getDOMElement, setDOMElement } from "../elementsDOM.js";
 import { getGameState, setGameState } from "../gameState.js";
 import { createDOMElement } from "../utils.js";
+import { DOM_ELEMENTS, GAME_STATES } from "../gameConstants.js";
 
 const MS_IN_SECOND = 1000;
 const MS_IN_MINUTE = 60 * MS_IN_SECOND;
@@ -35,8 +36,8 @@ export function createTimer() {
 
   timerWrapper.append(timerMinutes, timerSeparator, timerSeconds);
 
-  setDOMElement("timerMinutes", timerMinutes);
-  setDOMElement("timerSeconds", timerSeconds);
+  setDOMElement(DOM_ELEMENTS.timerMinutes, timerMinutes);
+  setDOMElement(DOM_ELEMENTS.timerSeconds, timerSeconds);
   return timerWrapper;
 }
 
@@ -50,8 +51,8 @@ function updateTextContent(type, newValue) {
   }
   const element =
     type === "seconds"
-      ? getDOMElement("timerSeconds")
-      : getDOMElement("timerMinutes");
+      ? getDOMElement(DOM_ELEMENTS.timerSeconds)
+      : getDOMElement(DOM_ELEMENTS.timerMinutes);
   element.textContent = `${newValue}`.padStart(2, "0");
   previousValues[type] = newValue;
 }
@@ -70,10 +71,10 @@ export function updateTimer(startDate, isContinue = false) {
 }
 
 export function startTimer() {
-  const timerState = getGameState("timer") * MS_IN_SECOND;
+  const timerState = getGameState(GAME_STATES.timer) * MS_IN_SECOND;
   startDate = Date.now() - timerState;
   updateTimer(startDate);
-  timerIntervalId = setInterval(updateTimer, 1000, startDate);
+  timerIntervalId = setInterval(updateTimer, MS_IN_SECOND, startDate);
 }
 
 export function stopTimer() {
@@ -84,11 +85,11 @@ export function saveTimer() {
   const difference = Date.now() - startDate;
   const time = getTime(difference, MS_IN_SECOND);
   console.log(time);
-  setGameState("timer", time);
+  setGameState(GAME_STATES.timer, time);
 }
 
 export function resetTimer() {
   updateTextContent("minutes", 0);
   updateTextContent("seconds", 0);
-  setGameState("timer", 0);
+  setGameState(GAME_STATES.timer, 0);
 }

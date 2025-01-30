@@ -1,5 +1,3 @@
-import { CSS_CLASSES } from "./gameConstants.js";
-
 /**
  * Creates and returns a new DOM element with the specified properties.
  * @param {Object} options - The options for creating the DOM element.
@@ -31,15 +29,12 @@ export function createDOMElement({
   return element;
 }
 
-export function createActionButton(buttonName, callBack, isHighlight = false) {
+export function createActionButton(buttonName, callBack) {
   const button = createDOMElement({
     tagName: "button",
     classList: ["button", "actionButton"],
     textContent: buttonName,
   });
-  if (isHighlight) {
-    button.classList.add(CSS_CLASSES.HIGHLIGHT_BUTTON);
-  }
   button.addEventListener("click", callBack);
   return button;
 }

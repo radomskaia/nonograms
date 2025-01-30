@@ -1,16 +1,18 @@
+import { GAME_STATES } from "./gameConstants.js";
+
 const gameState = {
-  timer: 0,
-  isTimer: false,
-  size: 5,
-  levelMatrix: null,
-  levelName: null,
-  levelMatrixSum: 0,
-  userMatrix: null,
-  correctCount: 0,
-  clues: null,
-  isEndGame: false,
-  isSound: true,
-  isLightTheme: false,
+  [GAME_STATES.timer]: 0,
+  [GAME_STATES.isTimer]: false,
+  [GAME_STATES.size]: 5,
+  [GAME_STATES.levelMatrix]: null,
+  [GAME_STATES.levelName]: null,
+  [GAME_STATES.levelMatrixSum]: 0,
+  [GAME_STATES.userMatrix]: null,
+  [GAME_STATES.correctCount]: 0,
+  [GAME_STATES.clues]: null,
+  [GAME_STATES.isEndGame]: false,
+  [GAME_STATES.isSound]: true,
+  [GAME_STATES.isLightTheme]: false,
 };
 
 export function getGameState(parameter) {

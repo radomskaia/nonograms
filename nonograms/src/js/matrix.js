@@ -1,19 +1,20 @@
 import { getGameState, setGameState } from "./gameState.js";
+import { GAME_STATES } from "./gameConstants.js";
 
 function createUserMatrix() {
-  const size = getGameState("size");
+  const size = getGameState(GAME_STATES.size);
   const userMatrix = Array.from({ length: size }, () => Array(size).fill(0));
-  setGameState("userMatrix", userMatrix);
+  setGameState(GAME_STATES.userMatrix, userMatrix);
 }
 
 function calculateLevelMatrixSum() {
-  const levelMatrix = getGameState("levelMatrix");
+  const levelMatrix = getGameState(GAME_STATES.levelMatrix);
   const sum = levelMatrix.reduce((a, b) => a + b.reduce((a, b) => a + b, 0), 0);
-  setGameState("levelMatrixSum", sum);
+  setGameState(GAME_STATES.levelMatrixSum, sum);
 }
 
 function calculateClues() {
-  const levelMatrix = getGameState("levelMatrix");
+  const levelMatrix = getGameState(GAME_STATES.levelMatrix);
   const length = levelMatrix.length;
   const clues = {
     column: Array.from({ length: length }, () => []),
@@ -53,7 +54,7 @@ function calculateClues() {
       });
     }
   });
-  setGameState("clues", clues);
+  setGameState(GAME_STATES.clues, clues);
 }
 
 export function calculateMatrix() {

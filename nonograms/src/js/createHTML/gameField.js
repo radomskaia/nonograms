@@ -3,16 +3,17 @@ import { getDOMElement, setDOMElement } from "../elementsDOM.js";
 import { getGameState, setGameState } from "../gameState.js";
 import { showModalWindow } from "./modal.js";
 import { saveTimer, startTimer, stopTimer } from "./timer.js";
+import { CSS_CLASSES, DOM_ELEMENTS, GAME_STATES } from "../gameConstants.js";
 
 const clickActions = {
   0: {
-    toggle: "filledCell",
-    remove: "crossedCell",
+    toggle: CSS_CLASSES.filled,
+    remove: CSS_CLASSES.crossed,
     handler: leftButtonHandler,
   },
   2: {
-    toggle: "crossedCell",
-    remove: "filledCell",
+    toggle: CSS_CLASSES.crossed,
+    remove: CSS_CLASSES.filled,
     handler: rightButtonHandler,
   },
 };
@@ -61,8 +62,8 @@ export function createGameTable() {
       }
       gameRow.append(cell);
     }
-    setDOMElement("gameCells", gameCells);
-    setDOMElement("gameClues", gameClues);
+    setDOMElement(DOM_ELEMENTS.gameCells, gameCells);
+    setDOMElement(DOM_ELEMENTS.gameClues, gameClues);
     tbody.append(gameRow);
   }
 }
@@ -71,6 +72,8 @@ export function renderGameClues() {
   const gameCluesElements = getDOMElement("gameClues");
   const gameCluesContent = getGameState("clues");
 
+  const gameCluesElements = getDOMElement(DOM_ELEMENTS.gameClues);
+  const gameCluesContent = getGameState(GAME_STATES.clues);
   Object.entries(gameCluesContent).forEach(([key, value]) => {
     const joinSymbol = key === "row" ? " " : "\n\n";
     value.forEach((arr, index) => {
@@ -106,17 +109,17 @@ function createGameCell(arr, isHeader, i = 0, j = 0) {
 }
 
 function mousedownHandler(event, cell, i, j) {
-  const isEndGame = getGameState("isEndGame");
-  const isTimer = getGameState("isTimer");
+  const isEndGame = getGameState(GAME_STATES.isEndGame);
+  const isTimer = getGameState(GAME_STATES.isTimer);
   if (isEndGame) {
     return;
   }
   if (!isTimer) {
     startTimer();
-    setGameState("isTimer", true);
+    setGameState(GAME_STATES.isTimer, true);
   }
-  const levelMatrix = getGameState("levelMatrix");
-  const userMatrix = getGameState("userMatrix");
+  const levelMatrix = getGameState(GAME_STATES.levelMatrix);
+  const userMatrix = getGameState(GAME_STATES.userMatrix);
   if (event.button in clickActions) {
     cell.classList.toggle(clickActions[event.button].toggle);
     cell.classList.remove(clickActions[event.button].remove);
@@ -140,7 +143,7 @@ function rightButtonHandler(correctValue, userMatrix, i, j) {
 }
 
 function changeCorrectCount(correctValue, userValue) {
-  let correctCount = getGameState("correctCount");
+  let correctCount = getGameState(GAME_STATES.correctCount);
 
   if (userValue === 2) {
     userValue = 0;
@@ -150,19 +153,19 @@ function changeCorrectCount(correctValue, userValue) {
   } else {
     correctCount--;
   }
-  setGameState("correctCount", correctCount);
+  setGameState(GAME_STATES.correctCount, correctCount);
   checkGameOver(correctCount);
 }
 
 function checkGameOver(correctCount) {
-  const levelMatrixSum = getGameState("levelMatrixSum");
+  const levelMatrixSum = getGameState(GAME_STATES.levelMatrixSum);
   if (correctCount !== levelMatrixSum) {
     return;
   }
 
   stopTimer();
   saveTimer();
-  setGameState("isEndGame", true);
+  setGameState(GAME_STATES.isEndGame, true);
   showModalWindow();
-  setGameState("isTimer", false);
+  setGameState(GAME_STATES.isTimer, false);
 }

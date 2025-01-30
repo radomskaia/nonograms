@@ -4,6 +4,8 @@ import { getDOMElement } from "../elementsDOM.js";
 import { updateDropList, updateTab } from "./levelTabs.js";
 import { createGameTable, renderGameClues } from "./gameField.js";
 import { getGameState, setGameState } from "../gameState.js";
+import { gamesData } from "../gamesData.js";
+import { CSS_CLASSES, DOM_ELEMENTS, GAME_STATES } from "../gameConstants.js";
 
 export function createButtonsWrapper(type) {
   const options = {
@@ -34,94 +36,112 @@ export function createButtonsWrapper(type) {
 }
 
 function saveGame() {
-  if (getGameState("isEndGame")) {
+  if (getGameState(GAME_STATES.isEndGame)) {
     console.log("You cant save the game after solution");
     return;
   }
   saveTimer();
-  const currentGame = getGameState("stringify");
-  window.localStorage.setItem("savedGame", currentGame);
+  const currentGame = getGameState(GAME_STATES.stringify);
+  window.localStorage.setItem(GAME_STATES.savedGame, currentGame);
 }
 
 function continueGame() {
-  stopTimer();
-  resetGameField();
-  const savedGame = JSON.parse(window.localStorage.getItem("savedGame"));
+  const savedGame = JSON.parse(
+    window.localStorage.getItem(GAME_STATES.savedGame),
+  );
   const isContinue = true;
 
-  if (getGameState("size") !== savedGame.size) {
-    setGameState("size", savedGame.size);
-    getDOMElement(`levelInput${savedGame.size}`).checked = true;
-    updateTab(savedGame.size);
-    createGameTable();
-  }
+  updateFromObj(savedGame);
 
-  if (getGameState("levelName") !== savedGame.levelName) {
-    setGameState("levelName", savedGame.levelName);
-    setGameState("levelMatrix", savedGame.levelMatrix);
-    setGameState("levelMatrixSum", savedGame.levelMatrixSum);
-    setGameState("clues", savedGame.clues);
-    updateDropList(isContinue);
-    renderGameClues();
-  }
-
-  setGameState("userMatrix", savedGame.userMatrix);
-
-  setGameState("correctCount", savedGame.correctCount);
-  setGameState("timer", savedGame.timer);
+  setStatesFromObj(
+    [GAME_STATES.userMatrix, GAME_STATES.correctCount, GAME_STATES.timer],
+    savedGame,
+  );
   updateTimer(savedGame.timer, isContinue);
-  const gameCells = getDOMElement("gameCells");
+  const gameCells = getDOMElement(DOM_ELEMENTS.gameCells);
   savedGame.userMatrix.forEach((row, i) => {
     row.forEach((cell, j) => {
       if (cell === 1) {
-        gameCells[i][j].classList.add("filledCell");
+        gameCells[i][j].classList.add(CSS_CLASSES.filled);
       } else if (cell === 2) {
-        gameCells[i][j].classList.add("crossedCell");
+        gameCells[i][j].classList.add(CSS_CLASSES.crossed);
       }
     });
   });
 }
 
+function updateFromObj(obj) {
+  stopTimer();
+
+  if (getGameState(GAME_STATES.size) !== obj[GAME_STATES.size]) {
+    setStatesFromObj([GAME_STATES.size], obj);
+    getDOMElement(DOM_ELEMENTS[`levelInput${obj[GAME_STATES.size]}`]).checked =
+      true;
+    updateTab(obj[GAME_STATES.size]);
+    createGameTable();
+  }
+  resetGameField();
+  if (getGameState(GAME_STATES.levelName) !== obj[GAME_STATES.levelName]) {
+    setStatesFromObj(
+      [
+        GAME_STATES.levelName,
+        GAME_STATES.levelMatrix,
+        GAME_STATES.levelMatrixSum,
+        GAME_STATES.clues,
+      ],
+      obj,
+    );
+    updateDropList(true);
+    renderGameClues();
+  }
+}
+
+function setStatesFromObj(parameterList, obj) {
+  parameterList.forEach((parameter) => {
+    setGameState(parameter, obj[parameter]);
+  });
+}
+
 function changeTheme() {
-  const isLightTheme = !getGameState("isLightTheme");
-  document.body.toggleAttribute("data-theme", isLightTheme);
-  setGameState("isLightTheme", isLightTheme);
+  const isLightTheme = !getGameState(GAME_STATES.isLightTheme);
+  document.body.toggleAttribute(CSS_CLASSES.theme, isLightTheme);
+  setGameState(GAME_STATES.isLightTheme, isLightTheme);
 }
 
 export function resetGameField() {
   stopTimer();
   resetTimer();
-  const gameCells = getDOMElement("gameCells");
-  const userMatrix = getGameState("userMatrix");
+  const gameCells = getDOMElement(DOM_ELEMENTS.gameCells);
+  const userMatrix = getGameState(GAME_STATES.userMatrix);
   userMatrix.forEach((row, i, arr) => {
     row.forEach((cell, j) => {
       arr[i][j] = 0;
-      gameCells[i][j].classList.remove("crossedCell");
-      gameCells[i][j].classList.remove("filledCell");
+      gameCells[i][j].classList.remove(CSS_CLASSES.crossed);
+      gameCells[i][j].classList.remove(CSS_CLASSES.filled);
     });
   });
-  setGameState("correctCount", 0);
-  setGameState("isEndGame", false);
-  setGameState("isTimer", false);
+  setGameState(GAME_STATES.correctCount, 0);
+  setGameState(GAME_STATES.isEndGame, false);
+  setGameState(GAME_STATES.isTimer, false);
 }
 
 function showSolution() {
-  const gameCells = getDOMElement("gameCells");
-  const levelMatrix = getGameState("levelMatrix");
-  const userMatrix = getGameState("userMatrix");
+  const gameCells = getDOMElement(DOM_ELEMENTS.gameCells);
+  const levelMatrix = getGameState(GAME_STATES.levelMatrix);
+  const userMatrix = getGameState(GAME_STATES.userMatrix);
   levelMatrix.forEach((row, i) => {
     row.forEach((cell, j) => {
       userMatrix[i][j] = 0;
       if (cell === 1) {
-        gameCells[i][j].classList.add("filledCell");
-        gameCells[i][j].classList.remove("crossedCell");
+        gameCells[i][j].classList.add(CSS_CLASSES.filled);
+        gameCells[i][j].classList.remove(CSS_CLASSES.crossed);
       } else {
-        gameCells[i][j].classList.remove("filledCell");
-        gameCells[i][j].classList.remove("crossedCell");
+        gameCells[i][j].classList.remove(CSS_CLASSES.filled);
+        gameCells[i][j].classList.remove(CSS_CLASSES.crossed);
       }
     });
   });
-  setGameState("isEndGame", true);
-  setGameState("correctCount", 0);
+  setGameState(GAME_STATES.isEndGame, true);
+  setGameState(GAME_STATES.correctCount, 0);
   stopTimer();
 }
