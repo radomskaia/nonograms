@@ -10,34 +10,26 @@ import { resetGameField } from "./actionButtons.js";
 
 const options = new Map();
 
-export function createLevels(levels) {
+export function createLevelControls(levels) {
   const levelWrapper = createDOMElement({
     tagName: "div",
     classList: ["levelWrapper"],
   });
-  const levelList = createLevelList(levels);
-  const levelDropList = createDropList();
-  levelWrapper.append(levelList, levelDropList);
-  return levelWrapper;
-}
-
-function createLevelList(levels) {
   const levelList = createDOMElement({
     tagName: "ul",
     classList: ["flex", "flex--justify-center", "flex_gap-20", "levelList"],
   });
-  const levelsButton = {};
-  const levelInputs = {};
-  levels.forEach((level) => {
-    levelsButton[level] = createRadioButton(level, levelInputs);
-  });
-  levelList.append(...Object.values(levelsButton));
+  levels.forEach((level) => levelList.append(createRadioButton(level)));
 
-  return levelList;
+  const levelDropList = createDropList();
+
+  levelWrapper.append(levelList, levelDropList);
+
+  return levelWrapper;
 }
 
 function createRadioButton(id) {
-  const liElement = createDOMElement({
+  const element = createDOMElement({
     tagName: "li",
   });
   const inputElement = createDOMElement({
@@ -49,9 +41,11 @@ function createRadioButton(id) {
       id: id,
     },
   });
-  if (id === 5) {
+
+  if (id === getGameState(GAME_STATES.size)) {
     inputElement.checked = true;
   }
+
   const labelElement = createDOMElement({
     tagName: "label",
     classList: ["button", "tabButton"],
@@ -60,53 +54,57 @@ function createRadioButton(id) {
       for: id,
     },
   });
+
   setDOMElement(`levelInput${id}`, inputElement);
-  liElement.append(inputElement, labelElement);
-  liElement.addEventListener("click", () => {
-    updateTab(id);
-  });
-  return liElement;
+
+  element.append(inputElement, labelElement);
+
+  element.addEventListener("click", () => updateTab(id));
+
+  return element;
 }
 
 function createDropList() {
-  const dropList = createDOMElement({
+  const selectElement = createDOMElement({
     tagName: "select",
     classList: ["levelField"],
     attributes: {
       id: "level-picture",
     },
   });
-  dropList.addEventListener("change", () => {
-    dropListHandler(dropList.value);
-  });
+
+  selectElement.addEventListener("change", () =>
+    dropListHandler(selectElement.value),
+  );
 
   gamesData.forEach(({ name, size }, index) => {
     options.set(name, new Map());
-    const optionEl = createDOMElement({
+    const optionElement = createDOMElement({
       tagName: "option",
       textContent: name,
     });
-    options.get(name).set(GAME_STATES.element, optionEl);
+    options.get(name).set(GAME_STATES.element, optionElement);
     options.get(name).set(GAME_STATES.size, size);
     options.get(name).set(GAME_STATES.index, index);
-    dropList.append(optionEl);
+    selectElement.append(optionElement);
   });
-  return dropList;
+
+  return selectElement;
 }
 
 function dropListHandler(levelName) {
   const dataIndex = options.get(levelName).get(GAME_STATES.index);
-  setGameState(GAME_STATES.levelName, levelName);
 
+  setGameState(GAME_STATES.levelName, levelName);
   setGameState(GAME_STATES.levelMatrix, gamesData[dataIndex].matrix);
   updateLevel();
 }
 
 export function updateTab(id) {
-  const size = getGameState(GAME_STATES.size);
-  if (size === id) {
+  if (getGameState(GAME_STATES.size) === id) {
     return;
   }
+
   setGameState(GAME_STATES.size, id);
   createGameTable();
   updateDropList();
@@ -123,6 +121,7 @@ export function updateDropList(isContinue = false) {
   const currLevel = getGameState(GAME_STATES.size);
   const gameName = getGameState(GAME_STATES.levelName);
   let lastSize;
+
   options.forEach((data, name) => {
     const index = data.get(GAME_STATES.index);
     const size = data.get(GAME_STATES.size);

@@ -1,6 +1,6 @@
 import { createDOMElement } from "../utils.js";
 import { createButtonsWrapper } from "./actionButtons.js";
-import { createLevels } from "./levelTabs.js";
+import { createLevelControls } from "./levelTabs.js";
 import { LEVELS } from "../gameConstants.js";
 import { createModal } from "./modal.js";
 import { createGameField } from "./gameField.js";
@@ -47,7 +47,7 @@ export function createDOMTree() {
   );
   allElements.fieldWrapper = createGameField();
 
-  allElements.levelList = createLevels(Object.values(LEVELS));
+  allElements.levelList = createLevelControls(Object.values(LEVELS));
 
   allElements.container.append(
     allElements.flexDiv,

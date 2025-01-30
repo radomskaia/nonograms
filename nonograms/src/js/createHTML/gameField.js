@@ -90,38 +90,36 @@ function createGameCell(arr, isHeader, i = 0, j = 0) {
   const cell = createDOMElement(options);
   arr?.push(cell);
 
-  if (isHeader) {
-    return cell;
+  if (!isHeader) {
+    cell.addEventListener("mousedown", (event) =>
+      mousedownHandler(event, cell, i, j),
+    );
+    cell.addEventListener("contextmenu", (event) => event.preventDefault());
   }
-
-  cell.addEventListener("mousedown", (event) => {
-    mousedownHandler(event, cell, i, j);
-  });
-
-  cell.addEventListener("contextmenu", (event) => {
-    event.preventDefault();
-  });
 
   return cell;
 }
 
 function mousedownHandler(event, cell, i, j) {
-  const isEndGame = getGameState(GAME_STATES.isEndGame);
-  const isTimer = getGameState(GAME_STATES.isTimer);
-  if (isEndGame) {
+  if (getGameState(GAME_STATES.isEndGame)) {
     return;
   }
-  if (!isTimer) {
+
+  if (!getGameState(GAME_STATES.isTimer)) {
     startTimer();
     setGameState(GAME_STATES.isTimer, true);
   }
+
+  const action = clickActions[event.button];
+
+  if (!action) return;
+
   const levelMatrix = getGameState(GAME_STATES.levelMatrix);
   const userMatrix = getGameState(GAME_STATES.userMatrix);
-  if (event.button in clickActions) {
-    cell.classList.toggle(clickActions[event.button].toggle);
-    cell.classList.remove(clickActions[event.button].remove);
-    clickActions[event.button].handler(levelMatrix[i][j], userMatrix, i, j);
-  }
+
+  cell.classList.toggle(action.toggle);
+  cell.classList.remove(action.remove);
+  action.handler(levelMatrix[i][j], userMatrix, i, j);
 }
 
 function leftButtonHandler(correctValue, userMatrix, i, j) {
@@ -130,11 +128,11 @@ function leftButtonHandler(correctValue, userMatrix, i, j) {
 }
 
 function rightButtonHandler(correctValue, userMatrix, i, j) {
-  const oldValue = userMatrix[i][j];
+  const previousValue = userMatrix[i][j];
 
   userMatrix[i][j] = userMatrix[i][j] === 2 ? 0 : 2;
 
-  if (oldValue === 1) {
+  if (previousValue === 1) {
     changeCorrectCount(correctValue, userMatrix[i][j]);
   }
 }
@@ -142,21 +140,15 @@ function rightButtonHandler(correctValue, userMatrix, i, j) {
 function changeCorrectCount(correctValue, userValue) {
   let correctCount = getGameState(GAME_STATES.correctCount);
 
-  if (userValue === 2) {
-    userValue = 0;
-  }
-  if (correctValue === userValue) {
-    correctCount++;
-  } else {
-    correctCount--;
-  }
+  userValue = userValue === 2 ? 0 : userValue;
+  correctCount += correctValue === userValue ? 1 : -1;
+
   setGameState(GAME_STATES.correctCount, correctCount);
   checkGameOver(correctCount);
 }
 
 function checkGameOver(correctCount) {
-  const levelMatrixSum = getGameState(GAME_STATES.levelMatrixSum);
-  if (correctCount !== levelMatrixSum) {
+  if (correctCount !== getGameState(GAME_STATES.levelMatrixSum)) {
     return;
   }
 
