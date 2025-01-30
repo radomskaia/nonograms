@@ -1,18 +1,15 @@
 import { getGameState, setGameState } from "./gameState.js";
 
-function createProcessMatrix() {
-  const cellCount = getGameState("cellCount");
-  const gameMatrix = Array.from({ length: cellCount }, () =>
-    Array(cellCount).fill(0),
-  );
-  setGameState("processMatrix", gameMatrix);
+function createUserMatrix() {
+  const size = getGameState("size");
+  const userMatrix = Array.from({ length: size }, () => Array(size).fill(0));
+  setGameState("userMatrix", userMatrix);
 }
 
 function calculateLevelMatrixSum() {
   const levelMatrix = getGameState("levelMatrix");
   const sum = levelMatrix.reduce((a, b) => a + b.reduce((a, b) => a + b, 0), 0);
   setGameState("levelMatrixSum", sum);
-  console.log("sum", sum);
 }
 
 function calculateClues() {
@@ -61,6 +58,6 @@ function calculateClues() {
 
 export function calculateMatrix() {
   calculateClues();
-  createProcessMatrix();
+  createUserMatrix();
   calculateLevelMatrixSum();
 }

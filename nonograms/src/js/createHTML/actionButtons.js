@@ -49,10 +49,10 @@ function continueGame() {
   const savedGame = JSON.parse(window.localStorage.getItem("savedGame"));
   const isContinue = true;
 
-  if (getGameState("cellCount") !== savedGame.cellCount) {
-    setGameState("cellCount", savedGame.cellCount);
-    getDOMElement(`levelInput${savedGame.cellCount}`).checked = true;
-    updateTab(savedGame.cellCount);
+  if (getGameState("size") !== savedGame.size) {
+    setGameState("size", savedGame.size);
+    getDOMElement(`levelInput${savedGame.size}`).checked = true;
+    updateTab(savedGame.size);
     createGameTable();
   }
 
@@ -65,14 +65,13 @@ function continueGame() {
     renderGameClues();
   }
 
-  setGameState("processMatrix", savedGame.processMatrix);
+  setGameState("userMatrix", savedGame.userMatrix);
 
-  setGameState("correctCellCount", savedGame.correctCellCount);
+  setGameState("correctCount", savedGame.correctCount);
   setGameState("timer", savedGame.timer);
-  console.log("savedGame.timer", savedGame.timer);
   updateTimer(savedGame.timer, isContinue);
   const gameCells = getDOMElement("gameCells");
-  savedGame.processMatrix.forEach((row, i) => {
+  savedGame.userMatrix.forEach((row, i) => {
     row.forEach((cell, j) => {
       if (cell === 1) {
         gameCells[i][j].classList.add("filledCell");
@@ -93,15 +92,15 @@ export function resetGameField() {
   stopTimer();
   resetTimer();
   const gameCells = getDOMElement("gameCells");
-  const processMatrix = getGameState("processMatrix");
-  processMatrix.forEach((row, i, arr) => {
+  const userMatrix = getGameState("userMatrix");
+  userMatrix.forEach((row, i, arr) => {
     row.forEach((cell, j) => {
       arr[i][j] = 0;
       gameCells[i][j].classList.remove("crossedCell");
       gameCells[i][j].classList.remove("filledCell");
     });
   });
-  setGameState("correctCellCount", 0);
+  setGameState("correctCount", 0);
   setGameState("isEndGame", false);
   setGameState("isTimer", false);
 }
@@ -109,10 +108,10 @@ export function resetGameField() {
 function showSolution() {
   const gameCells = getDOMElement("gameCells");
   const levelMatrix = getGameState("levelMatrix");
-  const processMatrix = getGameState("processMatrix");
+  const userMatrix = getGameState("userMatrix");
   levelMatrix.forEach((row, i) => {
     row.forEach((cell, j) => {
-      processMatrix[i][j] = 0;
+      userMatrix[i][j] = 0;
       if (cell === 1) {
         gameCells[i][j].classList.add("filledCell");
         gameCells[i][j].classList.remove("crossedCell");
@@ -123,6 +122,6 @@ function showSolution() {
     });
   });
   setGameState("isEndGame", true);
-  setGameState("correctCellCount", 0);
+  setGameState("correctCount", 0);
   stopTimer();
 }

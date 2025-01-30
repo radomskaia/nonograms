@@ -34,13 +34,13 @@ export function createGameField() {
 
 export function createGameTable() {
   tbody.replaceChildren();
-  const cellCount = getGameState("cellCount");
+  const size = getGameState("size");
   const gameCells = [];
   const gameClues = {
     row: [],
     column: [],
   };
-  for (let i = 0; i <= cellCount; i++) {
+  for (let i = 0; i <= size; i++) {
     if (i !== 0) {
       gameCells.push([]);
     }
@@ -48,7 +48,7 @@ export function createGameTable() {
       tagName: "tr",
       classList: ["gameRow"],
     });
-    for (let j = 0; j <= cellCount; j++) {
+    for (let j = 0; j <= size; j++) {
       let cell;
       if (i === 0 && j === 0) {
         cell = createGameCell(null, true);
@@ -116,47 +116,47 @@ function mousedownHandler(event, cell, i, j) {
     setGameState("isTimer", true);
   }
   const levelMatrix = getGameState("levelMatrix");
-  const processMatrix = getGameState("processMatrix");
+  const userMatrix = getGameState("userMatrix");
   if (event.button in clickActions) {
     cell.classList.toggle(clickActions[event.button].toggle);
     cell.classList.remove(clickActions[event.button].remove);
-    clickActions[event.button].handler(levelMatrix[i][j], processMatrix, i, j);
+    clickActions[event.button].handler(levelMatrix[i][j], userMatrix, i, j);
   }
 }
 
-function leftButtonHandler(correctValue, processMatrix, i, j) {
-  processMatrix[i][j] = processMatrix[i][j] === 1 ? 0 : 1;
-  changeCorrectCount(correctValue, processMatrix[i][j]);
+function leftButtonHandler(correctValue, userMatrix, i, j) {
+  userMatrix[i][j] = userMatrix[i][j] === 1 ? 0 : 1;
+  changeCorrectCount(correctValue, userMatrix[i][j]);
 }
 
-function rightButtonHandler(correctValue, processMatrix, i, j) {
-  const oldValue = processMatrix[i][j];
+function rightButtonHandler(correctValue, userMatrix, i, j) {
+  const oldValue = userMatrix[i][j];
 
-  processMatrix[i][j] = processMatrix[i][j] === 2 ? 0 : 2;
+  userMatrix[i][j] = userMatrix[i][j] === 2 ? 0 : 2;
 
   if (oldValue === 1) {
-    changeCorrectCount(correctValue, processMatrix[i][j]);
+    changeCorrectCount(correctValue, userMatrix[i][j]);
   }
 }
 
 function changeCorrectCount(correctValue, userValue) {
-  let correctCellCount = getGameState("correctCellCount");
+  let correctCount = getGameState("correctCount");
 
   if (userValue === 2) {
     userValue = 0;
   }
   if (correctValue === userValue) {
-    correctCellCount++;
+    correctCount++;
   } else {
-    correctCellCount--;
+    correctCount--;
   }
-  setGameState("correctCellCount", correctCellCount);
-  checkGameOver(correctCellCount);
+  setGameState("correctCount", correctCount);
+  checkGameOver(correctCount);
 }
 
-function checkGameOver(correctCellCount) {
+function checkGameOver(correctCount) {
   const levelMatrixSum = getGameState("levelMatrixSum");
-  if (correctCellCount !== levelMatrixSum) {
+  if (correctCount !== levelMatrixSum) {
     return;
   }
 

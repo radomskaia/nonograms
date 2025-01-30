@@ -103,11 +103,11 @@ function dropListHandler(levelName) {
 }
 
 export function updateTab(id) {
-  const cellCount = getGameState("cellCount");
-  if (cellCount === id) {
+  const size = getGameState("size");
+  if (size === id) {
     return;
   }
-  setGameState("cellCount", id);
+  setGameState("size", id);
   createGameTable();
   updateDropList();
   updateLevel();
@@ -120,7 +120,7 @@ export function updateLevel() {
 }
 
 export function updateDropList(isContinue = false) {
-  const currLevel = getGameState("cellCount");
+  const currLevel = getGameState("size");
   const gameName = getGameState("levelName");
   let lastSize;
   options.forEach((data, name) => {
