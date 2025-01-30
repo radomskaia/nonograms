@@ -20,7 +20,7 @@ export function getGameState(parameter) {
     return gameState[parameter];
   }
   if (parameter === "stringify") {
-    return JSON.stringify(gameState);
+    return gameState;
   }
   throw new Error(`Property "${parameter}" does not exist in gameState.`);
 }

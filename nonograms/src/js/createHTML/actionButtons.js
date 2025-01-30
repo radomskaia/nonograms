@@ -1,4 +1,9 @@
-import { createActionButton, createDOMElement } from "../utils.js";
+import {
+  createActionButton,
+  createDOMElement,
+  loadFromStorage,
+  saveToStorage,
+} from "../utils.js";
 import { resetTimer, saveTimer, stopTimer, updateTimer } from "./timer.js";
 import { getDOMElement } from "../elementsDOM.js";
 import { updateDropList, updateTab } from "./levelTabs.js";
@@ -42,37 +47,35 @@ function saveGame() {
     return;
   }
   saveTimer();
-  const currentGame = getGameState(GAME_STATES.stringify);
-  window.localStorage.setItem(GAME_STATES.savedGame, currentGame);
+  saveToStorage(GAME_STATES.savedGame, getGameState(GAME_STATES.stringify));
 }
 
 function continueGame() {
-  const savedGame = JSON.parse(
-    window.localStorage.getItem(GAME_STATES.savedGame),
-  );
+  const savedGame = loadFromStorage(GAME_STATES.savedGame);
+  if (!savedGame) {
+    return;
+  }
   const isContinue = true;
 
-  updateFromObj(savedGame);
+  updateFromObj(savedGame, isContinue);
 
   setStatesFromObj(
     [GAME_STATES.userMatrix, GAME_STATES.correctCount, GAME_STATES.timer],
     savedGame,
   );
   updateTimer(savedGame.timer, isContinue);
-  const gameCells = getDOMElement(DOM_ELEMENTS.gameCells);
-  savedGame.userMatrix.forEach((row, i) => {
+  const matrix = savedGame[GAME_STATES.userMatrix];
+  getDOMElement(DOM_ELEMENTS.gameCells).forEach((row, i) => {
     row.forEach((cell, j) => {
-      if (cell === 1) {
-        gameCells[i][j].classList.add(CSS_CLASSES.filled);
-      } else if (cell === 2) {
-        gameCells[i][j].classList.add(CSS_CLASSES.crossed);
-      }
+      cell.classList.toggle(CSS_CLASSES.filled, matrix[i][j] === 1);
+      cell.classList.toggle(CSS_CLASSES.crossed, matrix[i][j] === 2);
     });
   });
 }
 
-function updateFromObj(obj, isContinue = true) {
+function updateFromObj(obj, isContinue) {
   stopTimer();
+  resetGameField();
 
   if (getGameState(GAME_STATES.size) !== obj[GAME_STATES.size]) {
     setStatesFromObj([GAME_STATES.size], obj);
@@ -81,7 +84,6 @@ function updateFromObj(obj, isContinue = true) {
     updateTab(obj[GAME_STATES.size]);
     createGameTable();
   }
-  resetGameField(!isContinue);
   if (getGameState(GAME_STATES.levelName) !== obj[GAME_STATES.levelName]) {
     setStatesFromObj(
       [
@@ -102,9 +104,7 @@ function updateFromObj(obj, isContinue = true) {
 }
 
 function setStatesFromObj(parameterList, obj) {
-  parameterList.forEach((parameter) => {
-    setGameState(parameter, obj[parameter]);
-  });
+  parameterList.forEach((parameter) => setGameState(parameter, obj[parameter]));
 }
 
 function changeTheme() {
@@ -113,42 +113,30 @@ function changeTheme() {
   setGameState(GAME_STATES.isLightTheme, isLightTheme);
 }
 
-export function resetGameField(isRandom = false) {
+export function resetGameField() {
   stopTimer();
   resetTimer();
   setGameState(GAME_STATES.correctCount, 0);
   setGameState(GAME_STATES.isEndGame, false);
   setGameState(GAME_STATES.isTimer, false);
 
-  if (isRandom) {
-    return;
-  }
-
-  const gameCells = getDOMElement(DOM_ELEMENTS.gameCells);
   const userMatrix = getGameState(GAME_STATES.userMatrix);
-  userMatrix.forEach((row, i, arr) => {
+  getDOMElement(DOM_ELEMENTS.gameCells).forEach((row, i) => {
     row.forEach((cell, j) => {
-      arr[i][j] = 0;
-      gameCells[i][j].classList.remove(CSS_CLASSES.crossed);
-      gameCells[i][j].classList.remove(CSS_CLASSES.filled);
+      userMatrix[i][j] = 0;
+      cell.classList.remove(CSS_CLASSES.crossed, CSS_CLASSES.filled);
     });
   });
 }
 
 function showSolution() {
-  const gameCells = getDOMElement(DOM_ELEMENTS.gameCells);
   const levelMatrix = getGameState(GAME_STATES.levelMatrix);
   const userMatrix = getGameState(GAME_STATES.userMatrix);
-  levelMatrix.forEach((row, i) => {
+  getDOMElement(DOM_ELEMENTS.gameCells).forEach((row, i) => {
     row.forEach((cell, j) => {
       userMatrix[i][j] = 0;
-      if (cell === 1) {
-        gameCells[i][j].classList.add(CSS_CLASSES.filled);
-        gameCells[i][j].classList.remove(CSS_CLASSES.crossed);
-      } else {
-        gameCells[i][j].classList.remove(CSS_CLASSES.filled);
-        gameCells[i][j].classList.remove(CSS_CLASSES.crossed);
-      }
+      cell.classList.toggle(CSS_CLASSES.filled, levelMatrix[i][j] === 1);
+      cell.classList.remove(CSS_CLASSES.crossed);
     });
   });
   setGameState(GAME_STATES.isEndGame, true);
@@ -158,15 +146,14 @@ function showSolution() {
 
 function randomGame() {
   const currLevel = getGameState(GAME_STATES.levelName);
-  let newLevel = currLevel;
-  let index;
-  while (currLevel === newLevel) {
+  let newLevel, index;
+
+  do {
     index = Math.floor(Math.random() * gamesData.length);
     newLevel = gamesData[index].name;
-  }
+  } while (currLevel === newLevel);
+
   const data = gamesData[index];
-
-  updateFromObj(data, false);
-
   updateTab(data.size);
+  updateFromObj(data, false);
 }

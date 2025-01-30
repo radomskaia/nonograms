@@ -38,3 +38,11 @@ export function createActionButton(buttonName, callBack) {
   button.addEventListener("click", callBack);
   return button;
 }
+
+export function saveToStorage(key, value) {
+  window.localStorage.setItem(key, JSON.stringify(value));
+}
+
+export function loadFromStorage(key) {
+  return JSON.parse(window.localStorage.getItem(key));
+}
