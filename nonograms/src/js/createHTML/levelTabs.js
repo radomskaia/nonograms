@@ -5,7 +5,7 @@ import { CSS_CLASSES } from "../gameConstants.js";
 import { getGameState, resetGameField, setGameState } from "../gameState.js";
 import { createGameTable, renderGameClues } from "./gameField.js";
 import { calculateMatrix } from "../matrix.js";
-import { matrixPicture } from "../matrixPicture.js";
+import { gamesData } from "../gamesData.js";
 
 const options = new Map();
 
@@ -79,26 +79,25 @@ function createDropList() {
     dropListHandler(dropList.value);
   });
 
-  Object.entries(matrixPicture).forEach(([key, value]) => {
-    options.set(key, new Map());
-    Object.keys(value).forEach((name) => {
-      const optionEl = createDOMElement({
-        tagName: "option",
-        textContent: name,
-      });
-      options.get(key).set(name, optionEl);
-      dropList.append(optionEl);
+  gamesData.forEach(({ name, size }, index) => {
+    options.set(name, new Map());
+    const optionEl = createDOMElement({
+      tagName: "option",
+      textContent: name,
     });
+    options.get(name).set("element", optionEl);
+    options.get(name).set("size", size);
+    options.get(name).set("index", index);
+    dropList.append(optionEl);
   });
   return dropList;
 }
 
 function dropListHandler(levelName) {
+  const dataIndex = options.get(levelName).get("index");
   setGameState("levelName", levelName);
-  setGameState(
-    "levelMatrix",
-    matrixPicture[getGameState("cellCount")][levelName],
-  );
+
+  setGameState("levelMatrix", gamesData[dataIndex].matrix);
   updateLevel();
 }
 
@@ -122,26 +121,30 @@ export function updateLevel() {
 export function updateDropList(isContinue = false) {
   const currLevel = getGameState("cellCount");
   const gameName = getGameState("levelName");
-  options.forEach((value, key) => {
-    if (currLevel === +key) {
-      value.forEach((item, key) => {
-        if (isContinue && key === gameName) {
-          item.selected = true;
-        }
-        item.classList.remove("display-none");
-      });
-      if (isContinue) {
-        return;
-      }
-      const firstElement = value.entries().next();
-      firstElement.value[1].selected = true;
-      const levelName = firstElement.value[0];
-      setGameState("levelMatrix", matrixPicture[key][levelName]);
-      setGameState("levelName", levelName);
-    } else {
-      value.forEach((item) => {
-        item.classList.add("display-none");
-      });
+  let lastSize;
+  options.forEach((data, name) => {
+    const index = data.get("index");
+    const size = data.get("size");
+    const element = data.get("element");
+
+    if (currLevel !== size) {
+      element.classList.add("display-none");
+      return;
     }
+
+    element.classList.remove("display-none");
+
+    if (isContinue && name === gameName) {
+      element.selected = true;
+    }
+
+    const isFirstElement = size !== lastSize;
+    lastSize = size;
+    if (isContinue || !isFirstElement) {
+      return;
+    }
+    element.selected = true;
+    setGameState("levelMatrix", gamesData[index].matrix);
+    setGameState("levelName", name);
   });
 }

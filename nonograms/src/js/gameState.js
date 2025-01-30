@@ -1,4 +1,3 @@
-import { matrixPicture } from "./matrixPicture.js";
 import { getDOMElement } from "./elementsDOM.js";
 import { createGameTable, renderGameClues } from "./createHTML/gameField.js";
 import { updateDropList, updateTab } from "./createHTML/levelTabs.js";
@@ -13,13 +12,12 @@ const gameState = {
   timer: 0,
   isTimer: false,
   cellCount: 5,
-  levelMatrix: matrixPicture["5"].scull,
-  levelName: "scull",
+  levelMatrix: null,
+  levelName: null,
   levelMatrixSum: 0,
   processMatrix: null,
   correctCellCount: 0,
   clues: null,
-  isPlaying: false,
   isEndGame: false,
   isSound: true,
   isLightTheme: false,
