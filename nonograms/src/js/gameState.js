@@ -13,7 +13,7 @@ const gameState = {
   [GAME_STATES.isEndGame]: false,
   [GAME_STATES.isSound]: true,
   [GAME_STATES.isLightTheme]: false,
-  [GAME_STATES.scoreTable]: false,
+  [GAME_STATES.scoreTable]: [],
 };
 
 export function getGameState(parameter) {

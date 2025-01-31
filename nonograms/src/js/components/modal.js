@@ -30,8 +30,5 @@ export function createModal() {
 
   modal.append(modalText, modalButton);
 
-  return {
-    modal: modal,
-    text: modalText,
-  };
+  return modal;
 }

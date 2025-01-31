@@ -12,11 +12,9 @@ import { createTimer } from "./components/timer.js";
  *  An object containing references to the created DOM elements.
  */
 export function createAppView() {
-  const allElements = {};
-
-  allElements.container = createDOMElement({
+  const main = createDOMElement({
+    tagName: "main",
     classList: [
-      "container",
       "flex",
       "flex--column",
       "flex--align-justify-center",
@@ -24,38 +22,31 @@ export function createAppView() {
     ],
   });
 
-  allElements.flexDiv = createDOMElement({
+  const header = createDOMElement({
+    tagName: "header",
     classList: ["flex", "flex--align-justify-center", "flex_gap-30"],
   });
 
-  allElements.headerPrimary = createDOMElement({
+  const headerPrimary = createDOMElement({
     tagName: "h1",
     textContent: "Nonograms",
     classList: ["header-primary"],
   });
 
-  allElements.timerWrapper = createTimer();
+  header.append(headerPrimary, createTimer(), createButtonsWrapper("settings"));
 
-  allElements.settingsWrapper = createButtonsWrapper("settings");
-
-  allElements.buttonsWrapper = createButtonsWrapper("actions");
-
-  allElements.flexDiv.append(
-    allElements.headerPrimary,
-    allElements.timerWrapper,
-    allElements.settingsWrapper,
-  );
-  allElements.fieldWrapper = createGameField();
-
-  allElements.levelList = createLevelControls(Object.values(LEVELS));
-
-  allElements.container.append(
-    allElements.flexDiv,
-    allElements.buttonsWrapper,
-    allElements.levelList,
-    allElements.fieldWrapper,
+  main.append(
+    createButtonsWrapper("actions"),
+    createLevelControls(Object.values(LEVELS)),
+    createGameField(),
   );
 
-  allElements.modal = createModal();
-  document.body.append(allElements.container, allElements.modal.modal);
+  document.body.classList.add(
+    "container",
+    "flex",
+    "flex--column",
+    "flex--align-justify-center",
+    "flex_gap-30",
+  );
+  document.body.append(header, main, createModal());
 }
