@@ -1,12 +1,11 @@
 import { createActionButton, createDOMElement } from "../utils.js";
-import { getGameState } from "../gameState.js";
-import { MODAL_MESSAGES } from "../gameConstants.js";
+import { createScoreTable } from "./scoreTable.js";
+import { CSS_CLASSES } from "../gameConstants.js";
 
-let modal, modalText;
-export function showModalWindow() {
-  const timer = getGameState("timer");
-  modalText.textContent =
-    MODAL_MESSAGES.firstPart + timer + MODAL_MESSAGES.lastPart;
+let modal, modalText, table;
+export function showModalWindow(textContent, isWin) {
+  modalText.textContent = textContent;
+  table.classList.toggle(CSS_CLASSES.displayNone, isWin);
   modal.showModal();
 }
 
@@ -28,7 +27,9 @@ export function createModal() {
     tagName: "p",
   });
 
-  modal.append(modalText, modalButton);
+  table = createScoreTable();
+
+  modal.append(modalText, table, modalButton);
 
   return modal;
 }

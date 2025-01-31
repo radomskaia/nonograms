@@ -13,15 +13,15 @@ const gameState = {
   [GAME_STATES.isEndGame]: false,
   [GAME_STATES.isSound]: true,
   [GAME_STATES.isLightTheme]: false,
-  [GAME_STATES.scoreTable]: [],
+  [GAME_STATES.score]: [],
 };
 
 export function getGameState(parameter) {
+  if (parameter === GAME_STATES.save) {
+    return gameState;
+  }
   if (parameter in gameState) {
     return gameState[parameter];
-  }
-  if (parameter === "stringify") {
-    return gameState;
   }
   throw new Error(`Property "${parameter}" does not exist in gameState.`);
 }

@@ -8,6 +8,7 @@ const elementsDOM = {
   [DOM_ELEMENTS.levelInput5]: null,
   [DOM_ELEMENTS.levelInput10]: null,
   [DOM_ELEMENTS.levelInput15]: null,
+  [DOM_ELEMENTS.scoreTable]: null,
 };
 
 export function getDOMElement(element) {

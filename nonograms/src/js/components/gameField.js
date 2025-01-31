@@ -4,6 +4,13 @@ import { getGameState, setGameState } from "../gameState.js";
 import { showModalWindow } from "./modal.js";
 import { saveTimer, startTimer, stopTimer } from "./timer.js";
 import { CSS_CLASSES, DOM_ELEMENTS, GAME_STATES } from "../gameConstants.js";
+import {
+  CSS_CLASSES,
+  DOM_ELEMENTS,
+  GAME_STATES,
+  MODAL_MESSAGES,
+} from "../gameConstants.js";
+import { pushScoreTable, saveScoreTable } from "./scoreTable.js";
 
 const clickActions = {
   0: {
@@ -151,10 +158,26 @@ function checkGameOver(correctCount) {
   if (correctCount !== getGameState(GAME_STATES.levelMatrixSum)) {
     return;
   }
-
   stopTimer();
   saveTimer();
   setGameState(GAME_STATES.isEndGame, true);
   showModalWindow();
+  const name = getGameState(GAME_STATES.levelName);
+  const size = getGameState([GAME_STATES.size]);
+  const timer = getGameState([GAME_STATES.timer]);
+  const winnerData = {
+    [GAME_STATES.timer]: timer,
+    data: [
+      `${name[0].toUpperCase()}${name.slice(1)}`,
+      `${size}x${size}`,
+      `${getDOMElement(DOM_ELEMENTS.timerMinutes).textContent}
+      : ${getDOMElement(DOM_ELEMENTS.timerSeconds).textContent}`,
+    ],
+  };
+  pushScoreTable(winnerData);
+  saveScoreTable();
+  const textContent =
+    MODAL_MESSAGES.firstPart + timer + MODAL_MESSAGES.lastPart;
+  showModalWindow(textContent, true);
   setGameState(GAME_STATES.isTimer, false);
 }

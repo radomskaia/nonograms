@@ -10,14 +10,21 @@ import { updateDropList, updateTab } from "./levelTabs.js";
 import { createGameTable, renderGameClues } from "./gameField.js";
 import { getGameState, setGameState } from "../gameState.js";
 import { gamesData } from "../gamesData.js";
-import { CSS_CLASSES, DOM_ELEMENTS, GAME_STATES } from "../gameConstants.js";
+import {
+  CSS_CLASSES,
+  DOM_ELEMENTS,
+  GAME_STATES,
+  MODAL_MESSAGES,
+} from "../gameConstants.js";
 import { calculateMatrix } from "../matrix.js";
+import { showModalWindow } from "./modal.js";
+import { updateScoreTableView } from "./scoreTable.js";
 
 const options = {
   settings: {
     sound: () => {},
     "change theme": changeTheme,
-    "record List": () => {},
+    score: scoreButtonHandler,
   },
   actions: {
     reset: resetGameField,
@@ -28,6 +35,12 @@ const options = {
   },
 };
 
+const buttons = {
+  [DOM_ELEMENTS.continueButton]: null,
+  [DOM_ELEMENTS.score]: null,
+  [DOM_ELEMENTS.save]: null,
+};
+
 export function createButtonsWrapper(type) {
   const wrapper = createDOMElement({
     classList: ["flex", "flex--align-justify-center", "flex_gap-10"],
@@ -35,6 +48,9 @@ export function createButtonsWrapper(type) {
 
   Object.entries(options[type]).forEach(([key, value]) => {
     const button = createActionButton(key, value);
+    if (key in buttons) {
+      buttons[key] = button;
+    }
     wrapper.append(button);
   });
 
@@ -47,7 +63,8 @@ function saveGame() {
     return;
   }
   saveTimer();
-  saveToStorage(GAME_STATES.savedGame, getGameState(GAME_STATES.stringify));
+  saveToStorage(GAME_STATES.save, getGameState(GAME_STATES.save));
+  buttonDisabled(false, [DOM_ELEMENTS.continueButton]);
 }
 
 function continueGame() {
@@ -156,4 +173,9 @@ function randomGame() {
   const data = gamesData[index];
   updateTab(data.size);
   updateFromObj(data, false);
+}
+
+function scoreButtonHandler() {
+  updateScoreTableView();
+  showModalWindow(MODAL_MESSAGES.scoreTable, false);
 }

@@ -3,6 +3,7 @@ export const LEVELS = { easy: 5, medium: 10, hard: 15 };
 export const MODAL_MESSAGES = {
   firstPart: "Great! You have solved the nonogram in ",
   lastPart: " seconds!",
+  scoreTable: "List of winners",
 };
 
 export const CSS_CLASSES = {
@@ -25,11 +26,10 @@ export const GAME_STATES = {
   isEndGame: "isEndGame",
   isSound: "isSound",
   isLightTheme: "isLightTheme",
-  stringify: "stringify",
-  savedGame: "savedGame",
+  save: "savedGame",
   index: "index",
   element: "element",
-  scoreTable: "scoreTable",
+  score: "scoreTable",
 };
 
 export const DOM_ELEMENTS = {
@@ -40,4 +40,8 @@ export const DOM_ELEMENTS = {
   levelInput5: "levelInput5",
   levelInput10: "levelInput10",
   levelInput15: "levelInput15",
+  scoreTable: "scoreTable",
+  score: "score",
+  continueButton: "continue",
+  save: "save",
 };

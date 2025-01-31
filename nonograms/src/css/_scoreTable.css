@@ -1,0 +1,12 @@
+.scoreTable {
+  margin: 0 10px;
+  border-collapse: collapse;
+  font-size: 1.6rem;
+  background-color: inherit;
+}
+
+.data {
+  border: 1px solid var(--dark);
+  padding: 5px 15px;
+  transition: all 0.2s ease-in-out
+}
