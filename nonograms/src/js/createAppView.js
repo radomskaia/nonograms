@@ -1,17 +1,17 @@
-import { createDOMElement } from "../utils.js";
-import { createButtonsWrapper } from "./actionButtons.js";
-import { createLevelControls } from "./levelTabs.js";
-import { LEVELS } from "../gameConstants.js";
-import { createModal } from "./modal.js";
-import { createGameField } from "./gameField.js";
-import { createTimer } from "./timer.js";
+import { createDOMElement } from "./utils.js";
+import { createButtonsWrapper } from "./components/actionButtons.js";
+import { createLevelControls } from "./components/levelTabs.js";
+import { LEVELS } from "./gameConstants.js";
+import { createModal } from "./components/modal.js";
+import { createGameField } from "./components/gameField.js";
+import { createTimer } from "./components/timer.js";
 
 /**
  * Creates and appends the DOM tree for the game interface.
  * Initializes event listeners and returns references to the essential elements.
  *  An object containing references to the created DOM elements.
  */
-export function createDOMTree() {
+export function createAppView() {
   const allElements = {};
 
   allElements.container = createDOMElement({

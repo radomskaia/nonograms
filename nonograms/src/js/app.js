@@ -1,8 +1,8 @@
-import { createDOMTree } from "./createHTML/createDOMTree.js";
-import { updateDropList, updateLevel } from "./createHTML/levelTabs.js";
+import { createAppView } from "./createAppView.js";
+import { updateDropList, updateLevel } from "./components/levelTabs.js";
 
 export function init() {
-  createDOMTree();
+  createAppView();
   updateDropList();
   updateLevel();
 }

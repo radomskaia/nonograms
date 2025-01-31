@@ -29,6 +29,7 @@ export const GAME_STATES = {
   savedGame: "savedGame",
   index: "index",
   element: "element",
+  scoreTable: "scoreTable",
 };
 
 export const DOM_ELEMENTS = {
