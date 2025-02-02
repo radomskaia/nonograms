@@ -44,6 +44,10 @@ export function playAudio(type) {
   });
 }
 
+export function playVictory() {
+  audioElements.victory.play();
+}
+
 function stopAudio(audio) {
   if (isPlay) {
     audio.pause();

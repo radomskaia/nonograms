@@ -12,7 +12,7 @@ import {
 } from "../gameConstants.js";
 import { pushScoreTable, saveScoreTable } from "./scoreTable.js";
 import { buttonDisabled } from "./actionButtons.js";
-import { playAudio } from "./audio.js";
+import { playAudio, playVictory } from "./audio.js";
 
 const clickActions = {
   0: {
@@ -37,6 +37,7 @@ export function createGameField() {
   tbody = createDOMElement({
     tagName: "tbody",
   });
+  tbody.addEventListener("contextmenu", (event) => event.preventDefault());
   fieldWrapper.append(tbody);
   createGameTable();
   return fieldWrapper;
@@ -100,10 +101,13 @@ function createGameCell(arr, isHeader, i = 0, j = 0) {
   arr?.push(cell);
 
   if (!isHeader) {
-    cell.addEventListener("mousedown", (event) =>
+    cell.addEventListener("contextmenu", (event) => {
+      event.preventDefault();
+      mousedownHandler(event, cell, i, j);
+    });
+    cell.addEventListener("click", (event) =>
       mousedownHandler(event, cell, i, j),
     );
-    cell.addEventListener("contextmenu", (event) => event.preventDefault());
   }
 
   return cell;
@@ -171,7 +175,11 @@ function checkGameOver(correctCount) {
   if (correctCount !== getGameState(GAME_STATES.levelMatrixSum)) {
     return;
   }
-  playAudio(SOUNDS.victory);
+  gameOver();
+}
+
+function gameOver() {
+  playVictory();
   stopTimer();
   saveTimer();
   setGameState(GAME_STATES.isEndGame, true);
