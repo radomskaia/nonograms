@@ -84,7 +84,6 @@ export function stopTimer() {
 export function saveTimer() {
   const difference = Date.now() - startDate;
   const time = getTime(difference, MS_IN_SECOND);
-  console.log(time);
   setGameState(GAME_STATES.timer, time);
 }
 

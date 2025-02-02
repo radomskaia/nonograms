@@ -1,3 +1,5 @@
+import { LS_PREFIX } from "./gameConstants.js";
+
 /**
  * Creates and returns a new DOM element with the specified properties.
  * @param {Object} options - The options for creating the DOM element.
@@ -40,9 +42,15 @@ export function createActionButton(buttonName, callBack) {
 }
 
 export function saveToStorage(key, value) {
-  window.localStorage.setItem(key, JSON.stringify(value));
+  const storageKey = LS_PREFIX + key;
+  window.localStorage.setItem(storageKey, JSON.stringify(value));
 }
 
 export function loadFromStorage(key) {
-  return JSON.parse(window.localStorage.getItem(key));
+  const storageKey = LS_PREFIX + key;
+  return JSON.parse(window.localStorage.getItem(storageKey));
+}
+
+export function isEmptyLocalStorage(key) {
+  return !loadFromStorage(key);
 }

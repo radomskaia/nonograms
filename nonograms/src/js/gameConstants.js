@@ -45,3 +45,12 @@ export const DOM_ELEMENTS = {
   continueButton: "continue",
   save: "save",
 };
+
+export const SOUNDS = {
+  clear: "clear",
+  filled: "filled.",
+  crossed: "crossed",
+  victory: "victory",
+};
+
+export const LS_PREFIX = "radomskaia--nonograms--";

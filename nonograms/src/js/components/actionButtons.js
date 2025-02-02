@@ -19,10 +19,11 @@ import {
 import { calculateMatrix } from "../matrix.js";
 import { showModalWindow } from "./modal.js";
 import { updateScoreTableView } from "./scoreTable.js";
+import { toggleMuteAudio } from "./audio.js";
 
 const options = {
   settings: {
-    sound: () => {},
+    volume: volumeHandler,
     "change theme": changeTheme,
     score: scoreButtonHandler,
   },
@@ -39,6 +40,7 @@ const buttons = {
   [DOM_ELEMENTS.continueButton]: null,
   [DOM_ELEMENTS.score]: null,
   [DOM_ELEMENTS.save]: null,
+  volume: null,
 };
 
 export function createButtonsWrapper(type) {
@@ -54,21 +56,18 @@ export function createButtonsWrapper(type) {
     wrapper.append(button);
   });
 
+  buttons.volume.textContent = "SOUND ON";
   return wrapper;
 }
 
 function saveGame() {
-  if (getGameState(GAME_STATES.isEndGame)) {
-    console.log("You cant save the game after solution");
-    return;
-  }
   saveTimer();
   saveToStorage(GAME_STATES.save, getGameState(GAME_STATES.save));
   buttonDisabled(false, [DOM_ELEMENTS.continueButton]);
 }
 
 function continueGame() {
-  const savedGame = loadFromStorage(GAME_STATES.savedGame);
+  const savedGame = loadFromStorage(GAME_STATES.save);
   if (!savedGame) {
     return;
   }
@@ -136,7 +135,7 @@ export function resetGameField() {
   setGameState(GAME_STATES.correctCount, 0);
   setGameState(GAME_STATES.isEndGame, false);
   setGameState(GAME_STATES.isTimer, false);
-
+  buttonDisabled(false, [DOM_ELEMENTS.save]);
   const userMatrix = getGameState(GAME_STATES.userMatrix);
   getDOMElement(DOM_ELEMENTS.gameCells).forEach((row, i) => {
     row.forEach((cell, j) => {
@@ -159,6 +158,7 @@ function showSolution() {
   setGameState(GAME_STATES.isEndGame, true);
   setGameState(GAME_STATES.correctCount, 0);
   stopTimer();
+  buttonDisabled(true, [DOM_ELEMENTS.save]);
 }
 
 function randomGame() {
@@ -178,4 +178,14 @@ function randomGame() {
 function scoreButtonHandler() {
   updateScoreTableView();
   showModalWindow(MODAL_MESSAGES.scoreTable, false);
+}
+
+export function buttonDisabled(isDisabled, button) {
+  buttons[button].disabled = isDisabled;
+}
+
+function volumeHandler() {
+  toggleMuteAudio();
+  buttons.volume.textContent =
+    buttons.volume.textContent === "SOUND ON" ? "SOUND OFF" : "SOUND ON";
 }

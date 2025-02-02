@@ -3,14 +3,16 @@ import { getDOMElement, setDOMElement } from "../elementsDOM.js";
 import { getGameState, setGameState } from "../gameState.js";
 import { showModalWindow } from "./modal.js";
 import { saveTimer, startTimer, stopTimer } from "./timer.js";
-import { CSS_CLASSES, DOM_ELEMENTS, GAME_STATES } from "../gameConstants.js";
 import {
   CSS_CLASSES,
   DOM_ELEMENTS,
   GAME_STATES,
   MODAL_MESSAGES,
+  SOUNDS,
 } from "../gameConstants.js";
 import { pushScoreTable, saveScoreTable } from "./scoreTable.js";
+import { buttonDisabled } from "./actionButtons.js";
+import { playAudio } from "./audio.js";
 
 const clickActions = {
   0: {
@@ -130,14 +132,25 @@ function mousedownHandler(event, cell, i, j) {
 }
 
 function leftButtonHandler(correctValue, userMatrix, i, j) {
-  userMatrix[i][j] = userMatrix[i][j] === 1 ? 0 : 1;
+  if (userMatrix[i][j] === 1) {
+    userMatrix[i][j] = 0;
+    playAudio(SOUNDS.clear);
+  } else {
+    userMatrix[i][j] = 1;
+    playAudio(SOUNDS.filled);
+  }
   changeCorrectCount(correctValue, userMatrix[i][j]);
 }
 
 function rightButtonHandler(correctValue, userMatrix, i, j) {
   const previousValue = userMatrix[i][j];
-
-  userMatrix[i][j] = userMatrix[i][j] === 2 ? 0 : 2;
+  if (userMatrix[i][j] === 2) {
+    userMatrix[i][j] = 0;
+    playAudio(SOUNDS.clear);
+  } else {
+    userMatrix[i][j] = 2;
+    playAudio(SOUNDS.crossed);
+  }
 
   if (previousValue === 1) {
     changeCorrectCount(correctValue, userMatrix[i][j]);
@@ -158,10 +171,10 @@ function checkGameOver(correctCount) {
   if (correctCount !== getGameState(GAME_STATES.levelMatrixSum)) {
     return;
   }
+  playAudio(SOUNDS.victory);
   stopTimer();
   saveTimer();
   setGameState(GAME_STATES.isEndGame, true);
-  showModalWindow();
   const name = getGameState(GAME_STATES.levelName);
   const size = getGameState([GAME_STATES.size]);
   const timer = getGameState([GAME_STATES.timer]);
@@ -174,6 +187,7 @@ function checkGameOver(correctCount) {
       : ${getDOMElement(DOM_ELEMENTS.timerSeconds).textContent}`,
     ],
   };
+  buttonDisabled(false, [DOM_ELEMENTS.score]);
   pushScoreTable(winnerData);
   saveScoreTable();
   const textContent =

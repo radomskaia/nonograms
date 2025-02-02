@@ -1,23 +1,23 @@
 import { createAppView } from "./createAppView.js";
 import { updateDropList, updateLevel } from "./components/levelTabs.js";
 import { DOM_ELEMENTS, GAME_STATES } from "./gameConstants.js";
-import { loadFromStorage } from "./utils.js";
+import { isEmptyLocalStorage, loadFromStorage } from "./utils.js";
 import { setGameState } from "./gameState.js";
+import { buttonDisabled } from "./components/actionButtons.js";
+import { audioInit } from "./components/audio.js";
 
 export function init() {
   createAppView();
-  const loadedScore = loadFromStorage(GAME_STATES.score);
-  if (loadedScore) {
-    setGameState([GAME_STATES.score]);
-  } else {
-    console.log(loadedScore);
-    buttonDisabled(true, [DOM_ELEMENTS.score]);
+
+  const isScoreEmpty = isEmptyLocalStorage(GAME_STATES.score);
+  if (!isScoreEmpty) {
+    setGameState([GAME_STATES.score], loadFromStorage([GAME_STATES.score]));
   }
-  const loadedGame = loadFromStorage(GAME_STATES.save);
-  if (!loadedGame) {
-    console.log(loadedGame);
-    buttonDisabled(true, [DOM_ELEMENTS.continueButton]);
-  }
+  buttonDisabled(isScoreEmpty, [DOM_ELEMENTS.score]);
+  buttonDisabled(isEmptyLocalStorage(GAME_STATES.save), [
+    DOM_ELEMENTS.continueButton,
+  ]);
   updateDropList();
   updateLevel();
+  audioInit();
 }
