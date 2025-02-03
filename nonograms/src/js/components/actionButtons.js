@@ -20,6 +20,7 @@ import { calculateMatrix } from "../matrix.js";
 import { showModalWindow } from "./modal.js";
 import { updateScoreTableView } from "./scoreTable.js";
 import { toggleMuteAudio } from "./audio.js";
+import { changeTheme } from "./changeTheme.js";
 
 const options = {
   settings: {
@@ -120,12 +121,6 @@ function setStatesFromObj(parameterList, obj) {
   parameterList.forEach((parameter) => setGameState(parameter, obj[parameter]));
 }
 
-function changeTheme() {
-  const isLightTheme = !getGameState(GAME_STATES.isLightTheme);
-  document.body.toggleAttribute(CSS_CLASSES.theme, isLightTheme);
-  setGameState(GAME_STATES.isLightTheme, isLightTheme);
-}
-
 export function resetGameField() {
   stopTimer();
   resetTimer();
@@ -175,7 +170,7 @@ export function buttonDisabled(isDisabled, button) {
   buttons[button].disabled = isDisabled;
 }
 
-function volumeHandler() {
+export function volumeHandler() {
   toggleMuteAudio();
   buttons.volume.textContent =
     buttons.volume.textContent === "SOUND ON" ? "SOUND OFF" : "SOUND ON";

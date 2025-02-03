@@ -1,4 +1,5 @@
-import { SOUNDS } from "../gameConstants.js";
+import { GAME_STATES, SOUNDS } from "../gameConstants.js";
+import { saveToStorage } from "../utils.js";
 
 const soundsName = {
   [SOUNDS.clear]: "clear.mp3",
@@ -22,9 +23,12 @@ function creatAudio(src) {
 }
 
 export function toggleMuteAudio() {
+  let isMuted;
   Object.values(audioElements).forEach((audio) => {
     audio.muted = !audio.muted;
+    isMuted = audio.muted;
   });
+  saveToStorage(GAME_STATES.isMuted, isMuted);
 }
 
 export function playAudio(type) {

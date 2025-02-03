@@ -30,6 +30,7 @@ export const GAME_STATES = {
   index: "index",
   element: "element",
   score: "scoreTable",
+  isMuted: "isMuted",
 };
 
 export const DOM_ELEMENTS = {

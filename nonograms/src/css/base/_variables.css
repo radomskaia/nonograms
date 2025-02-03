@@ -2,6 +2,8 @@
   /* color */
   --background-color: #fbfbfd;
   --primary: #5e63ba;
+  --cell: #2f3480;
+  --cell-border:  #5e63ba;
   --primary-alpha: rgb(94 99 186 / 50%);
   --primary-alpha2: rgb(94 99 186 / 10%);
   --dark: #2f3480;
@@ -9,6 +11,7 @@
   --static-green-alpha: rgba(40, 180, 133, 0.3);
   --static-white: #fbfbfd;
   --content-background: #ecf3f8;
+  --content-table: #ecf3f8;
   --overlay: rgb(24 28 41 / 80%);
 
   /* border */
@@ -18,28 +21,16 @@
   --container-width: 1440px;
 
   [data-theme] {
-    --background-color: #1e2337; /* Темный фон с легким синим оттенком */
-    --primary: #a0a8d0; /* Светлый оттенок основного цвета */
-    --primary-alpha: rgb(160 168 208 / 50%); /* Прозрачная версия primary */
-    --primary-alpha2: rgb(160 168 208 / 10%); /* Еще более прозрачная версия primary */
-    --dark: #f5f8ff; /* Более светлый оттенок темного для контраста */
-    --static-green: rgba(38, 162, 123, 0.8); /* Более яркий оттенок зеленого */
-    --static-green-alpha: rgba(38, 162, 123, 0.3); /* Прозрачный зеленый */
-    --static-white: #2b2d42; /* Бледно-серый для "белого" текста */
-    --content-background: #282c47; /* Темный фон для контента, чуть светлее основного фона */
-    --overlay: rgba(245, 248, 255, 0.2); /* Темный, почти черный цвет для перекрывающих элементов */
-  }
-
-  /* [data-theme] { */
-  /*   --background-color: #1e1e2f; !* Темный фон с легким синим оттенком *! */
-  /*   --primary: #7f83e7; !* Светлый оттенок основного цвета *! */
-  /*   --primary-alpha: rgb(127 131 231 / 50%); !* Прозрачная версия primary *! */
-  /*   --primary-alpha2: rgb(127 131 231 / 10%); !* Еще более прозрачная версия primary *! */
-  /*   --dark: #4d52a3; !* Более светлый оттенок темного для контраста *! */
-  /*   --static-green: rgba(50, 210, 160, 0.8); !* Более яркий оттенок зеленого *! */
-  /*   --static-green-alpha: rgba(50, 210, 160, 0.3); !* Прозрачный зеленый *! */
-  /*   --static-white: #e3e3e7; !* Бледно-серый для "белого" текста *! */
-  /*   --content-background: #26263b; !* Темный фон для контента, чуть светлее основного фона *! */
-  /*   --overlay: rgba(24, 28, 41, 0.20); !* Темный, почти черный цвет для перекрывающих элементов *! */
-  /* } */
+    --background-color: #1e2337;
+    --primary: #a0a8d0;
+    --primary-alpha: rgb(160 168 208 / 50%);
+    --primary-alpha2: rgb(160 168 208 / 10%);
+    --dark: #f5f8ff;
+    --static-green: rgba(38, 162, 123, 0.8);
+    --static-green-alpha: rgba(38, 162, 123, 0.3);
+    --static-white: #2b2d42;
+    --content-background: #282c47;
+    --content-table: #b6c2ca;
+    --overlay: rgba(245, 248, 255, 0.2);
+}
 }
