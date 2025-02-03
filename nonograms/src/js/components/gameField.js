@@ -121,6 +121,7 @@ function mousedownHandler(event, cell, i, j) {
   if (!getGameState(GAME_STATES.isTimer)) {
     startTimer();
     setGameState(GAME_STATES.isTimer, true);
+    buttonDisabled(false, [DOM_ELEMENTS.save]);
   }
 
   const action = clickActions[event.button];
@@ -196,6 +197,7 @@ function gameOver() {
     ],
   };
   buttonDisabled(false, [DOM_ELEMENTS.score]);
+  buttonDisabled(true, [DOM_ELEMENTS.save]);
   pushScoreTable(winnerData);
   saveScoreTable();
   const textContent =

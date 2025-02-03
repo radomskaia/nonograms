@@ -19,14 +19,14 @@ const gameState = {
 export function getGameState(parameter) {
   if (parameter === GAME_STATES.save) {
     return {
-      [GAME_STATES.timer]: gameState.timer,
-      [GAME_STATES.size]: gameState.size,
-      [GAME_STATES.levelMatrix]: gameState.levelMatrix,
-      [GAME_STATES.levelName]: gameState.levelName,
-      [GAME_STATES.levelMatrixSum]: gameState.levelMatrixSum,
-      [GAME_STATES.userMatrix]: gameState.userMatrix,
-      [GAME_STATES.correctCount]: gameState.correctCount,
-      [GAME_STATES.clues]: gameState.timer,
+      [GAME_STATES.timer]: gameState[GAME_STATES.timer],
+      [GAME_STATES.size]: gameState[GAME_STATES.size],
+      [GAME_STATES.levelMatrix]: gameState[GAME_STATES.levelMatrix],
+      [GAME_STATES.levelName]: gameState[GAME_STATES.levelName],
+      [GAME_STATES.levelMatrixSum]: gameState[GAME_STATES.levelMatrixSum],
+      [GAME_STATES.userMatrix]: gameState[GAME_STATES.userMatrix],
+      [GAME_STATES.correctCount]: gameState[GAME_STATES.correctCount],
+      [GAME_STATES.clues]: gameState[GAME_STATES.clues],
     };
   }
   if (parameter in gameState) {

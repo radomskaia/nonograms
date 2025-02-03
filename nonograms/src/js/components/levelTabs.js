@@ -9,7 +9,7 @@ import { gamesData } from "../gamesData.js";
 import { resetGameField } from "./actionButtons.js";
 
 const options = new Map();
-
+const inputElements = {};
 export function createLevelControls(levels) {
   const levelWrapper = createDOMElement({
     tagName: "div",
@@ -41,7 +41,7 @@ function createRadioButton(id) {
       id: id,
     },
   });
-
+  inputElements[id] = inputElement;
   if (id === getGameState(GAME_STATES.size)) {
     inputElement.checked = true;
   }
@@ -105,6 +105,7 @@ export function updateTab(id) {
     return;
   }
 
+  inputElements[id].checked = true;
   setGameState(GAME_STATES.size, id);
   createGameTable();
   updateDropList();

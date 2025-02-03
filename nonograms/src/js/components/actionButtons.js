@@ -68,9 +68,6 @@ function saveGame() {
 
 function continueGame() {
   const savedGame = loadFromStorage(GAME_STATES.save);
-  if (!savedGame) {
-    return;
-  }
   const isContinue = true;
 
   updateFromObj(savedGame, isContinue);
@@ -135,7 +132,6 @@ export function resetGameField() {
   setGameState(GAME_STATES.correctCount, 0);
   setGameState(GAME_STATES.isEndGame, false);
   setGameState(GAME_STATES.isTimer, false);
-  buttonDisabled(false, [DOM_ELEMENTS.save]);
   const userMatrix = getGameState(GAME_STATES.userMatrix);
   getDOMElement(DOM_ELEMENTS.gameCells).forEach((row, i) => {
     row.forEach((cell, j) => {

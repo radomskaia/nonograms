@@ -13,6 +13,7 @@ export function init() {
   if (!isScoreEmpty) {
     setGameState([GAME_STATES.score], loadFromStorage([GAME_STATES.score]));
   }
+  buttonDisabled(true, [DOM_ELEMENTS.save]);
   buttonDisabled(isScoreEmpty, [DOM_ELEMENTS.score]);
   buttonDisabled(isEmptyLocalStorage(GAME_STATES.save), [
     DOM_ELEMENTS.continueButton,
