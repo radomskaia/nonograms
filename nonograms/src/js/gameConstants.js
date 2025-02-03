@@ -47,6 +47,8 @@ export const DOM_ELEMENTS = {
   save: "save",
   reset: "reset",
   solution: "solution",
+  volume: "volume",
+  changeTheme: "changeTheme",
 };
 
 export const SOUNDS = {
@@ -57,3 +59,16 @@ export const SOUNDS = {
 };
 
 export const LS_PREFIX = "radomskaia--nonograms--";
+
+export const ICONS_PATH = {
+  volumeOn: "./volume-loud-svgrepo-com.svg",
+  volumeOff: "./volume-cross-svgrepo-com.svg",
+  lightTheme: "./cloud-sun-2-svgrepo-com.svg",
+  darkTheme: "./cloudy-moon-svgrepo-com.svg",
+  score: "./cup-star-svgrepo-com.svg",
+  solution: "./eye-svgrepo-com.svg",
+  save: "./save-svgrepo-com.svg",
+  continue: "./load-svgrepo-com.svg",
+  reset: "./reset-svgrepo-com.svg",
+  random: "./perspective-dice-random-svgrepo-com.svg",
+};

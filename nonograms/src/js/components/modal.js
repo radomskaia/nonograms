@@ -12,15 +12,12 @@ export function showModalWindow(textContent, isWin) {
 export function createModal() {
   modal = createDOMElement({
     tagName: "dialog",
-    classList: [
-      "modal",
-      "flex",
-      "flex--column",
-      "flex--align-center",
-      "flex_gap-20",
-    ],
+    classList: ["modal"],
   });
 
+  const modalWrapper = createDOMElement({
+    classList: ["flex", "flex--column", "flex--align-center", "flex_gap-20"],
+  });
   const modalButton = createActionButton("close", () => modal.close());
 
   modalText = createDOMElement({
@@ -29,7 +26,7 @@ export function createModal() {
 
   table = createScoreTable();
 
-  modal.append(modalText, table, modalButton);
-
+  modalWrapper.append(modalText, table, modalButton);
+  modal.append(modalWrapper);
   return modal;
 }

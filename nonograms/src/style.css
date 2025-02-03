@@ -5,38 +5,40 @@
 @import "css/base/_utils.css";
 @import "css/_gameField.css";
 @import "css/_levelTabs.css";
-@import "css/_timer.css";
 @import "css/_scoreTable.css";
 @import "css/_media-queries.css";
 
 /* base */
 *,
 *::before,
-*::after{
+*::after {
   padding: 0;
   box-sizing: border-box;
 }
 
 *:not(dialog),
 *::before,
-*::after{
+*::after {
   margin: 0;
 }
 
-html{
+html {
   scroll-behavior: smooth;
 }
 
 a:link,
-a:visited{
+a:visited {
   text-decoration: none;
   color: inherit;
 }
 
-ul{
+ul {
   list-style: none;
 }
 
 body {
-  background-color: var(--background-color);
+  background-image: linear-gradient(rgba(var(--content-background-alpha50)), rgba(var(--content-background-alpha50))),
+  url("../bg.webp");
+  background-position: center;
+  background-size: cover;
 }

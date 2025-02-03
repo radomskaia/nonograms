@@ -1,5 +1,11 @@
-import { GAME_STATES, SOUNDS } from "../gameConstants.js";
+import {
+  DOM_ELEMENTS,
+  GAME_STATES,
+  ICONS_PATH,
+  SOUNDS,
+} from "../gameConstants.js";
 import { saveToStorage } from "../utils.js";
+import { getDOMElement } from "../elementsDOM.js";
 
 const soundsName = {
   [SOUNDS.clear]: "clear.mp3",
@@ -28,6 +34,9 @@ export function toggleMuteAudio() {
     audio.muted = !audio.muted;
     isMuted = audio.muted;
   });
+  getDOMElement([DOM_ELEMENTS.volume]).src = isMuted
+    ? ICONS_PATH.volumeOff
+    : ICONS_PATH.volumeOn;
   saveToStorage(GAME_STATES.isMuted, isMuted);
 }
 

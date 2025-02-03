@@ -2,50 +2,77 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: solid 1px var(--primary);
-  border-radius: var(--border-radius);
-  font-family: inherit;
-  color: inherit;
-  background-color: var(--primary);
+  border: none;
+  background-color: inherit;
   transition: all 0.2s ease-in-out;
   cursor: pointer;
 }
 
 .actionButton {
   border: none;
+  border-radius: var(--border-radius);
   padding: 10px 20px;
   box-shadow: none;
+  font-family: inherit;
   font-weight: 700;
   font-size: 2rem;
   text-transform: uppercase;
-  color: var(--dark);
+  color: inherit;
   background-color: var(--static-green);
   transform: translateY(0);
 }
 
-.actionButtonHighlight {
-  width: 293px;
-  box-shadow: 1px 10px 15px var(--primary-alpha);
-  color: var(--static-white);
-  transform: translateY(-4px);
+.iconButton {
+  filter: invert(0) brightness(1);
+  transform: scale(1);
+  transition: 0.3s ease-in-out;
+  cursor: pointer;
 }
 
-.actionButton:disabled {
-  color: var(--primary-alpha);
-  background-color: var(--static-green-alpha);
-  cursor: auto;
+.iconButton--settings {
+  width: 40px;
 }
 
+.iconButton--actions {
+  width: 50px;
+}
+
+.button:disabled .iconButton {
+  filter: invert(0.2) brightness(1);
+  transform: scale(0.9);
+}
+
+[data-theme] {
+  .iconButton {
+    filter: invert(1) brightness(1);
+  }
+
+  .button:disabled .iconButton {
+    filter: invert(1) brightness(0.5);
+    transform: scale(0.9);
+  }
+}
 
 @media (hover: hover) and (pointer: fine) {
   .actionButton:hover {
-    color: var(--dark);
     background-color: var(--static-green-alpha);
   }
 
-  .actionButton:disabled:hover {
-    color: var(--primary-alpha);
-    background-color: var(--static-green-alpha);
+  .iconButton:hover {
+    transform: scale(1.1);
+  }
+
+  .iconButton:active {
+    transform: scale(1.05);
+  }
+
+  button:disabled .iconButton:hover {
+    transform: scale(0.9);
+    cursor: auto;
+  }
+
+  button:disabled .iconButton:active {
+    transform: scale(0.9);
     cursor: auto;
   }
 }

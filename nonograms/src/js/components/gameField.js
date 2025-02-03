@@ -2,7 +2,7 @@ import { createDOMElement } from "../utils.js";
 import { getDOMElement, setDOMElement } from "../elementsDOM.js";
 import { getGameState, setGameState } from "../gameState.js";
 import { showModalWindow } from "./modal.js";
-import { saveTimer, startTimer, stopTimer } from "./timer.js";
+import { createTimer, saveTimer, startTimer, stopTimer } from "./timer.js";
 import {
   CSS_CLASSES,
   DOM_ELEMENTS,
@@ -63,6 +63,8 @@ export function createGameTable() {
       let cell;
       if (i === 0 && j === 0) {
         cell = createGameCell(null, true);
+        cell.append(createTimer());
+        cell.classList.add("timerCell");
       } else if (j === 0) {
         cell = createGameCell(gameClues.row, true);
       } else if (i === 0) {

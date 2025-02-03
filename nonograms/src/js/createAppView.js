@@ -4,7 +4,6 @@ import { createLevelControls } from "./components/levelTabs.js";
 import { LEVELS } from "./gameConstants.js";
 import { createModal } from "./components/modal.js";
 import { createGameField } from "./components/gameField.js";
-import { createTimer } from "./components/timer.js";
 
 /**
  * Creates and appends the DOM tree for the game interface.
@@ -24,7 +23,12 @@ export function createAppView() {
 
   const header = createDOMElement({
     tagName: "header",
-    classList: ["flex", "flex--align-justify-center", "flex_gap-30"],
+    classList: [
+      "flex",
+      "flex--align-justify-center",
+      "flex--justify-around",
+      "width100",
+    ],
   });
 
   const headerPrimary = createDOMElement({
@@ -33,11 +37,11 @@ export function createAppView() {
     classList: ["header-primary"],
   });
 
-  header.append(headerPrimary, createTimer(), createButtonsWrapper("settings"));
+  header.append(headerPrimary, createButtonsWrapper("settings"));
 
   main.append(
-    createButtonsWrapper("actions"),
     createLevelControls(Object.values(LEVELS)),
+    createButtonsWrapper("actions"),
     createGameField(),
   );
 

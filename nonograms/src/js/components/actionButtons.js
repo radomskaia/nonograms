@@ -1,11 +1,6 @@
-import {
-  createActionButton,
-  createDOMElement,
-  loadFromStorage,
-  saveToStorage,
-} from "../utils.js";
+import { createDOMElement, loadFromStorage, saveToStorage } from "../utils.js";
 import { resetTimer, saveTimer, stopTimer, updateTimer } from "./timer.js";
-import { getDOMElement } from "../elementsDOM.js";
+import { getDOMElement, setDOMElement } from "../elementsDOM.js";
 import { updateDropList, updateTab } from "./levelTabs.js";
 import { createGameTable, renderGameClues } from "./gameField.js";
 import { getGameState, setGameState } from "../gameState.js";
@@ -14,6 +9,7 @@ import {
   CSS_CLASSES,
   DOM_ELEMENTS,
   GAME_STATES,
+  ICONS_PATH,
   MODAL_MESSAGES,
 } from "../gameConstants.js";
 import { calculateMatrix } from "../matrix.js";
@@ -24,16 +20,48 @@ import { changeTheme } from "./changeTheme.js";
 
 const options = {
   settings: {
-    volume: volumeHandler,
-    "change theme": changeTheme,
-    score: scoreButtonHandler,
+    volume: {
+      callback: toggleMuteAudio,
+      path: ICONS_PATH.volumeOn,
+      title: "Volume",
+    },
+    changeTheme: {
+      callback: changeTheme,
+      path: ICONS_PATH.lightTheme,
+      title: "Change theme",
+    },
+    score: {
+      callback: scoreButtonHandler,
+      path: ICONS_PATH.score,
+      title: "Results of the last games",
+    },
   },
   actions: {
-    reset: resetGameField,
-    save: saveGame,
-    continue: continueGame,
-    solution: showSolution,
-    "random game": randomGame,
+    reset: {
+      callback: resetGameField,
+      path: ICONS_PATH.reset,
+      title: "Reset game",
+    },
+    save: {
+      callback: saveGame,
+      path: ICONS_PATH.save,
+      title: "Save game",
+    },
+    continue: {
+      callback: continueGame,
+      path: ICONS_PATH.continue,
+      title: "Continue game",
+    },
+    solution: {
+      callback: showSolution,
+      path: ICONS_PATH.solution,
+      title: "Show solution",
+    },
+    random: {
+      callback: randomGame,
+      path: ICONS_PATH.random,
+      title: "Select a random game",
+    },
   },
 };
 
@@ -43,24 +71,50 @@ const buttons = {
   [DOM_ELEMENTS.save]: null,
   [DOM_ELEMENTS.reset]: null,
   [DOM_ELEMENTS.solution]: null,
-  volume: null,
+  [DOM_ELEMENTS.volume]: null,
+  [DOM_ELEMENTS.changeTheme]: null,
 };
 
 export function createButtonsWrapper(type) {
   const wrapper = createDOMElement({
-    classList: ["flex", "flex--align-justify-center", "flex_gap-10"],
+    classList: ["flex", "flex--align-justify-center", "flex_gap-30"],
   });
 
   Object.entries(options[type]).forEach(([key, value]) => {
-    const button = createActionButton(key, value);
+    const { callback, path, title } = value;
+    const button = createButton(key, callback, path, title, type);
     if (key in buttons) {
       buttons[key] = button;
     }
     wrapper.append(button);
   });
 
-  buttons.volume.textContent = "SOUND ON";
   return wrapper;
+}
+
+function createButton(buttonName, callBack, path, title, type) {
+  const button = createDOMElement({
+    tagName: "button",
+    classList: ["button"],
+  });
+  const img = createDOMElement({
+    tagName: "img",
+    classList: ["iconButton", `iconButton--${type}`],
+    attributes: {
+      title: title,
+      src: path,
+      alt: buttonName,
+    },
+  });
+  if (
+    buttonName === DOM_ELEMENTS.volume ||
+    buttonName === DOM_ELEMENTS.changeTheme
+  ) {
+    setDOMElement(buttonName, img);
+  }
+  button.append(img);
+  button.addEventListener("click", callBack);
+  return button;
 }
 
 function saveGame() {
@@ -74,7 +128,7 @@ function continueGame() {
   const isContinue = true;
 
   updateFromObj(savedGame, isContinue);
-
+  buttonDisabled(false, [DOM_ELEMENTS.reset]);
   setStatesFromObj(
     [GAME_STATES.userMatrix, GAME_STATES.correctCount, GAME_STATES.timer],
     savedGame,
@@ -155,6 +209,7 @@ function showSolution() {
   setGameState(GAME_STATES.correctCount, 0);
   stopTimer();
   buttonDisabled(true, [DOM_ELEMENTS.save]);
+  buttonDisabled(false, [DOM_ELEMENTS.reset]);
 }
 
 function randomGame() {
@@ -173,10 +228,4 @@ function scoreButtonHandler() {
 
 export function buttonDisabled(isDisabled, button) {
   buttons[button].disabled = isDisabled;
-}
-
-export function volumeHandler() {
-  toggleMuteAudio();
-  buttons.volume.textContent =
-    buttons.volume.textContent === "SOUND ON" ? "SOUND OFF" : "SOUND ON";
 }

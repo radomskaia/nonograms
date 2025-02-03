@@ -17,7 +17,7 @@ export function createTimer() {
       "flex",
       "flex--align-justify-center",
       "flex_gap-10",
-      "timerWrapper",
+      "margin-0-auto",
     ],
   });
   const timerMinutes = createDOMElement({

@@ -3,8 +3,8 @@ import { updateDropList, updateLevel } from "./components/levelTabs.js";
 import { DOM_ELEMENTS, GAME_STATES } from "./gameConstants.js";
 import { isEmptyLocalStorage, loadFromStorage } from "./utils.js";
 import { setGameState } from "./gameState.js";
-import { buttonDisabled, volumeHandler } from "./components/actionButtons.js";
-import { audioInit } from "./components/audio.js";
+import { buttonDisabled } from "./components/actionButtons.js";
+import { audioInit, toggleMuteAudio } from "./components/audio.js";
 
 export function init() {
   createAppView();
@@ -23,6 +23,6 @@ export function init() {
   audioInit();
   const isMuted = loadFromStorage([GAME_STATES.isMuted]);
   if (isMuted) {
-    volumeHandler();
+    toggleMuteAudio();
   }
 }

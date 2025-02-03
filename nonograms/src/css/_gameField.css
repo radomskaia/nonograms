@@ -2,7 +2,6 @@
   border: 3px solid var(--cell-border);
   border-collapse: collapse;
   font-size: 1.6rem;
-  color: var(--cell);
   background-color: var(--content-table);
 }
 
@@ -30,12 +29,17 @@
   white-space: pre;
 }
 
-.gameRow:nth-child(5n +1) {
+.gameRow:first-child .cell.timerCell {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.gameRow:nth-child(5n +1):not(:last-child) {
   border-bottom: 3px solid var(--cell-border);
 }
 
 .gameRow:nth-child(5n +1),
-.cell:nth-child(5n +1) {
+.cell:nth-child(5n +1):not(:last-child) {
   border-right: 3px solid var(--cell-border);
 }
 

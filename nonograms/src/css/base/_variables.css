@@ -1,16 +1,17 @@
 :root {
   /* color */
   --background-color: #fbfbfd;
-  --primary: #5e63ba;
-  --cell: #2f3480;
-  --cell-border:  #5e63ba;
-  --primary-alpha: rgb(94 99 186 / 50%);
-  --primary-alpha2: rgb(94 99 186 / 10%);
-  --dark: #2f3480;
-  --static-green: rgba(40, 180, 133, 0.8);
-  --static-green-alpha: rgba(40, 180, 133, 0.3);
+  --primary: #1c274d;
+  --cell: #716b58;
+  --cell-border:  #1c274d;
+  --primary-alpha: rgb(28 39 77 / 50%);
+  --primary-alpha2: rgb(28 39 77 / 10%);
+  --dark: #1c274d;
+  --static-green: #ccc19f;
+  --static-green-alpha: rgba(40, 180, 133, 0.5);
   --static-white: #fbfbfd;
   --content-background: #ecf3f8;
+  --content-background-alpha50: 236, 243, 248, 0.8;
   --content-table: #ecf3f8;
   --overlay: rgb(24 28 41 / 80%);
 
@@ -22,14 +23,17 @@
 
   [data-theme] {
     --background-color: #1e2337;
-    --primary: #a0a8d0;
-    --primary-alpha: rgb(160 168 208 / 50%);
+    --primary: #ccc19f;
+     --cell-border: #716b58;
+     --cell: #262f4a;
+    --primary-alpha: rgb(204 193 159 / 50%);
     --primary-alpha2: rgb(160 168 208 / 10%);
-    --dark: #f5f8ff;
-    --static-green: rgba(38, 162, 123, 0.8);
-    --static-green-alpha: rgba(38, 162, 123, 0.3);
+    --dark: #ccc19f;
+    --static-green: #1c274d;
+    --static-green-alpha: rgba(22, 113, 83, 0.7);
     --static-white: #2b2d42;
     --content-background: #282c47;
+    --content-background-alpha50: 30, 35, 55, 0.95;
     --content-table: #b6c2ca;
     --overlay: rgba(245, 248, 255, 0.2);
 }

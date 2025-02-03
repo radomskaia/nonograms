@@ -1,6 +1,6 @@
- /* 800px */
+/* 800px */
 @media only screen and (width <= 50em) {
-    .container {
+  .container {
     padding: 20px 10px 0;
   }
 
@@ -28,8 +28,6 @@
     font-size: 2.8rem;
   }
 
-
-
   .cell {
     width: 25px;
     height: 25px;
@@ -45,22 +43,18 @@
   }
 
   .gameRow:first-child .cell {
-  padding: 5px 0;
-}
+    padding: 5px 0;
+  }
 }
 
 /* 576px */
 @media only screen and (width <= 36em) {
-   body {
+  body {
     font-size: 1.4rem;
   }
 
-   .button {
-     padding: 5px 10px;
-  }
-
-  .header-primary {
-    font-size: 1.8rem;
+  .button {
+    padding: 5px 10px;
   }
 
   .cell {
@@ -78,26 +72,45 @@
   }
 
   .gameRow:first-child .cell {
-  line-height: 0.7;
-}
+    line-height: 0.7;
+  }
 
- .flex_gap-30 {
+  .flex_gap-30 {
     gap: 20px;
   }
 
+  .iconButton--settings {
+    width: 30px;
+  }
+
+  .iconButton--actions {
+    width: 40px;
+  }
 }
 
 /* 448px */
 @media only screen and (width <= 28em) {
+  .iconButton--settings {
+    width: 25px;
+  }
+
+  .iconButton--actions {
+    width: 30px;
+  }
+
+  .header-primary {
+    font-size: 2rem;
+  }
+
   .container {
     padding-inline: 5px;
   }
 
-   .button {
+  .button {
     font-size: 1.4rem
   }
 
- .cell {
+  .cell {
     width: 18px;
     height: 18px;
   }

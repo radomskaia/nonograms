@@ -1,4 +1,6 @@
 .tabButton {
+  border: 1px solid var(--dark);
+  border-radius: var(--border-radius);
   padding: 5px;
   width: 100px;
   text-transform: capitalize;
@@ -34,7 +36,7 @@ input:checked ~ .tabButton {
 
 .levelField {
   margin-top: 15px;
-   border: solid 1px var(--primary);
+  border: solid 1px var(--primary);
   border-radius: var(--border-radius);
   width: 100%;
   font-family: inherit;
@@ -42,7 +44,7 @@ input:checked ~ .tabButton {
   text-align: center;
   text-transform: uppercase;
   color: inherit;
-   background-color: inherit;
+  background-color: inherit;
   padding-block: 5px;
   padding-inline: 10px;
 }
