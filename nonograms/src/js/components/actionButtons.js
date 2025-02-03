@@ -159,14 +159,9 @@ function showSolution() {
 
 function randomGame() {
   const currLevel = getGameState(GAME_STATES.levelName);
-  let newLevel, index;
-
-  do {
-    index = Math.floor(Math.random() * gamesData.length);
-    newLevel = gamesData[index].name;
-  } while (currLevel === newLevel);
-
-  const data = gamesData[index];
+  const filteredData = gamesData.filter((data) => data.name !== currLevel);
+  const index = Math.floor(Math.random() * filteredData.length);
+  const data = filteredData[index];
   updateTab(data.size);
   updateFromObj(data, false);
 }

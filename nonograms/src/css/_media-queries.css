@@ -1,71 +1,122 @@
-/* 760px */
-@media only screen and (width <= 47.5em) {
-  .html {
-    /* 9px */
-    font-size: 56.25%;
-  }
-
-   .container {
-     padding-inline: 20px;
-   }
-}
-
-/* 552px */
-@media only screen and (width <= 34.5em) {
-  .container {
-     gap: 15px;
-    padding-block: 10px 0;
-   }
-
-  .keyboardWrapper {
-    margin-block: 10px;
+ /* 800px */
+@media only screen and (width <= 50em) {
+    .container {
+    padding: 20px 10px 0;
   }
 
   .flex {
     flex-wrap: wrap;
   }
+}
 
-  .numbers {
-    max-width: 300px;
+/* 688px */
+@media only screen and (width <= 43em) {
+  html {
+    /* 9px */
+    font-size: 56.25%;
   }
 
-  .levelList {
-    order: -1;
+  body {
+    font-size: 1.6rem;
   }
 
-  .flexDiv {
-    order: 0;
-  }
-
-  .roundWrapper {
-    order: -1;
+  .button {
+    font-size: 1.6rem;
   }
 
   .header-primary {
-    order: -2;
+    font-size: 2.8rem;
   }
+
+
+
+  .cell {
+    width: 25px;
+    height: 25px;
+  }
+
+  .tableHeader {
+    font-size: 1.4rem;
+  }
+
+  .cell:first-child {
+    padding: 0 5px;
+    word-spacing: 10px;
+  }
+
+  .gameRow:first-child .cell {
+  padding: 5px 0;
+}
+}
+
+/* 576px */
+@media only screen and (width <= 36em) {
+   body {
+    font-size: 1.4rem;
+  }
+
+   .button {
+     padding: 5px 10px;
+  }
+
+  .header-primary {
+    font-size: 1.8rem;
+  }
+
+  .cell {
+    width: 20px;
+    height: 20px;
+  }
+
+  .tableHeader {
+    font-size: 1.2rem;
+  }
+
+  .cell:first-child {
+    padding: 0 5px;
+    word-spacing: 7px;
+  }
+
+  .gameRow:first-child .cell {
+  line-height: 0.7;
+}
+
+ .flex_gap-30 {
+    gap: 20px;
+  }
+
 }
 
 /* 448px */
 @media only screen and (width <= 28em) {
-   .container {
-     padding-inline: 10px;
-   }
-
-  .outputField {
-    width: 100%;
-    padding-inline: 20px;
+  .container {
+    padding-inline: 5px;
   }
 
-  .flex_gap-20 {
+   .button {
+    font-size: 1.4rem
+  }
+
+ .cell {
+    width: 18px;
+    height: 18px;
+  }
+
+  .tableHeader {
+    font-size: 1.2rem;
+  }
+
+  .cell:first-child {
+    padding: 0 3px;
+    word-spacing: 3px;
+  }
+
+  .flex_gap-30 {
     gap: 10px;
   }
 
-  .actionButton {
-    font-size: 1.6rem;
+  .levelField {
+    margin-top: 7px;
   }
-
-  .actionButtonHighlight {
-  width: 242px;}
 }
 
