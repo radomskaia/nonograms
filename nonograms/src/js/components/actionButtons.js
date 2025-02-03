@@ -41,6 +41,8 @@ const buttons = {
   [DOM_ELEMENTS.continueButton]: null,
   [DOM_ELEMENTS.score]: null,
   [DOM_ELEMENTS.save]: null,
+  [DOM_ELEMENTS.reset]: null,
+  [DOM_ELEMENTS.solution]: null,
   volume: null,
 };
 
@@ -127,6 +129,9 @@ export function resetGameField() {
   setGameState(GAME_STATES.correctCount, 0);
   setGameState(GAME_STATES.isEndGame, false);
   setGameState(GAME_STATES.isTimer, false);
+  buttonDisabled(true, [DOM_ELEMENTS.save]);
+  buttonDisabled(true, [DOM_ELEMENTS.reset]);
+  buttonDisabled(false, [DOM_ELEMENTS.solution]);
   const userMatrix = getGameState(GAME_STATES.userMatrix);
   getDOMElement(DOM_ELEMENTS.gameCells).forEach((row, i) => {
     row.forEach((cell, j) => {

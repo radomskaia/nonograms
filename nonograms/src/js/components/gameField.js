@@ -122,6 +122,7 @@ function mousedownHandler(event, cell, i, j) {
     startTimer();
     setGameState(GAME_STATES.isTimer, true);
     buttonDisabled(false, [DOM_ELEMENTS.save]);
+    buttonDisabled(false, [DOM_ELEMENTS.reset]);
   }
 
   const action = clickActions[event.button];
@@ -198,6 +199,7 @@ function gameOver() {
   };
   buttonDisabled(false, [DOM_ELEMENTS.score]);
   buttonDisabled(true, [DOM_ELEMENTS.save]);
+  buttonDisabled(true, [DOM_ELEMENTS.solution]);
   pushScoreTable(winnerData);
   saveScoreTable();
   const textContent =

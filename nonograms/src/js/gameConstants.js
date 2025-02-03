@@ -45,6 +45,8 @@ export const DOM_ELEMENTS = {
   score: "score",
   continueButton: "continue",
   save: "save",
+  reset: "reset",
+  solution: "solution",
 };
 
 export const SOUNDS = {
