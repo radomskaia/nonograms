@@ -39,6 +39,4 @@ ul {
 body {
   background-image: linear-gradient(rgba(var(--content-background-alpha50)), rgba(var(--content-background-alpha50))),
   url("../bg.webp");
-  background-position: center;
-  background-size: cover;
 }
