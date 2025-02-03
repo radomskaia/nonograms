@@ -28,6 +28,7 @@ const clickActions = {
 };
 
 let tbody;
+let gameCells, gameClues;
 
 export function createGameField() {
   const fieldWrapper = createDOMElement({
@@ -46,11 +47,11 @@ export function createGameField() {
 export function createGameTable() {
   tbody.replaceChildren();
   const size = getGameState("size");
-  const gameCells = [];
-  const gameClues = {
+  gameClues = {
     row: [],
     column: [],
   };
+  gameCells = [];
   for (let i = 0; i <= size; i++) {
     if (i !== 0) {
       gameCells.push([]);
@@ -69,11 +70,23 @@ export function createGameTable() {
         cell = createGameCell(gameClues.row, true);
       } else if (i === 0) {
         cell = createGameCell(gameClues.column, true);
+        cell.addEventListener("mouseenter", function () {
+          gameCells.forEach((row) => row[j - 1].classList.add("highlightCell"));
+          cell.classList.add("highlightCell");
+        });
+
+        cell.addEventListener("mouseleave", function () {
+          gameCells.forEach((row) =>
+            row[j - 1].classList.remove("highlightCell"),
+          );
+          cell.classList.remove("highlightCell");
+        });
       } else {
         cell = createGameCell(gameCells[i - 1], false, i - 1, j - 1);
       }
       gameRow.append(cell);
     }
+
     setDOMElement(DOM_ELEMENTS.gameCells, gameCells);
     setDOMElement(DOM_ELEMENTS.gameClues, gameClues);
     tbody.append(gameRow);
@@ -110,6 +123,15 @@ function createGameCell(arr, isHeader, i = 0, j = 0) {
     cell.addEventListener("click", (event) =>
       mousedownHandler(event, cell, i, j),
     );
+    cell.addEventListener("mouseenter", function () {
+      gameCells.forEach((row) => row[j].classList.add("highlightCell"));
+      gameClues.column[j].classList.add("highlightCell");
+    });
+
+    cell.addEventListener("mouseleave", function () {
+      gameCells.forEach((row) => row[j].classList.remove("highlightCell"));
+      gameClues.column[j].classList.remove("highlightCell");
+    });
   }
 
   return cell;
@@ -129,7 +151,9 @@ function mousedownHandler(event, cell, i, j) {
 
   const action = clickActions[event.button];
 
-  if (!action) return;
+  if (!action) {
+    return;
+  }
 
   const levelMatrix = getGameState(GAME_STATES.levelMatrix);
   const userMatrix = getGameState(GAME_STATES.userMatrix);

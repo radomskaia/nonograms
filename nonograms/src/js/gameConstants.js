@@ -61,15 +61,14 @@ export const SOUNDS = {
 export const LS_PREFIX = "radomskaia--nonograms--";
 
 export const ICONS_PATH = {
-  volumeOn: "./volume-loud-svgrepo-com.svg",
-  volumeOff: "./volume-cross-svgrepo-com.svg",
-  lightTheme: "./cloud-sun-2-svgrepo-com.svg",
-  darkTheme: "./cloudy-moon-svgrepo-com.svg",
-  score: "./cup-star-svgrepo-com.svg",
-  solution: "./eye-svgrepo-com.svg",
-  save: "./save-svgrepo-com.svg",
-  continue: "./load-svgrepo-com.svg",
-  reset: "./reset-svgrepo-com.svg",
-  random: "./perspective-dice-random-svgrepo-com.svg",
-  pen: "./perspective-dice-random-svgrepo-com.svg",
+  volumeOn: "./icons/volume-loud.svg",
+  volumeOff: "./icons/volume-cross.svg",
+  lightTheme: "./icons/cloud-sun.svg",
+  darkTheme: "./icons/cloudy-moon.svg",
+  score: "./icons/cup-star.svg",
+  solution: "./icons/eye.svg",
+  save: "./icons/save.svg",
+  continue: "./icons/load.svg",
+  reset: "./icons/reset.svg",
+  random: "./icons/perspective-dice-random.svg",
 };
