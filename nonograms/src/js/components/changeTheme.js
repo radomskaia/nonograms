@@ -12,7 +12,7 @@ export function changeTheme() {
   toggleTheme(isLightTheme);
 }
 
-function toggleTheme(isDarkMode) {
+export function toggleTheme(isDarkMode) {
   getDOMElement([DOM_ELEMENTS.changeTheme]).src = isDarkMode
     ? ICONS_PATH.darkTheme
     : ICONS_PATH.lightTheme;

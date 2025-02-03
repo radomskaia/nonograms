@@ -10,7 +10,7 @@
   width: 30px;
   height: 30px;
   background-color: inherit;
-  transition: all 0.2s ease-in-out
+  transition: all 0.2s ease-in-out;
 }
 
 .cell:first-child {
@@ -41,6 +41,16 @@
 .gameRow:nth-child(5n +1),
 .cell:nth-child(5n +1):not(:last-child) {
   border-right: 3px solid var(--cell-border);
+}
+
+  [data-theme]  {
+  .gameRow:not(:first-child) .cell:not(:first-child) {
+    cursor: url('../pen-light.svg') 0 25, pointer;
+  }
+}
+
+  .gameRow:not(:first-child) .cell:not(:first-child) {
+cursor: url('../pen-dark.svg') 0 25, pointer;
 }
 
 .filledCell {

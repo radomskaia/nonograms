@@ -71,4 +71,5 @@ export const ICONS_PATH = {
   continue: "./load-svgrepo-com.svg",
   reset: "./reset-svgrepo-com.svg",
   random: "./perspective-dice-random-svgrepo-com.svg",
+  pen: "./perspective-dice-random-svgrepo-com.svg",
 };

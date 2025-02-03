@@ -5,6 +5,7 @@ import { isEmptyLocalStorage, loadFromStorage } from "./utils.js";
 import { setGameState } from "./gameState.js";
 import { buttonDisabled } from "./components/actionButtons.js";
 import { audioInit, toggleMuteAudio } from "./components/audio.js";
+import { toggleTheme } from "./components/changeTheme.js";
 
 export function init() {
   createAppView();
@@ -25,4 +26,6 @@ export function init() {
   if (isMuted) {
     toggleMuteAudio();
   }
+
+  toggleTheme(window.matchMedia("(prefers-color-scheme: dark)").matches);
 }

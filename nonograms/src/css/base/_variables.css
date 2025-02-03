@@ -8,7 +8,7 @@
   --primary-alpha2: rgb(28 39 77 / 10%);
   --dark: #1c274d;
   --static-green: #ccc19f;
-  --static-green-alpha: rgba(40, 180, 133, 0.5);
+  --static-green-alpha: rgba(204, 193, 159, 0.5);
   --static-white: #fbfbfd;
   --content-background: #ecf3f8;
   --content-background-alpha50: 236, 243, 248, 0.8;
@@ -30,7 +30,7 @@
     --primary-alpha2: rgb(160 168 208 / 10%);
     --dark: #ccc19f;
     --static-green: #1c274d;
-    --static-green-alpha: rgba(22, 113, 83, 0.7);
+    --static-green-alpha: rgba(28, 39, 77, 0.7);
     --static-white: #2b2d42;
     --content-background: #282c47;
     --content-background-alpha50: 30, 35, 55, 0.95;
