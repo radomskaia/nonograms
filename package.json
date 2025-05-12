@@ -8,14 +8,14 @@
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf node_modules/.vite",
-    "deploy": "npm run build && npx gh-pages -d dist -e nonograms",
-    "prepare": "cd .. && husky nonograms/.husky",
-    "format": "prettier --write .",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "deploy": "npm run build && npx gh-pages -d dist",
+    "prepare": "cd  && husky",
+    "format": "prettier --write",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
     "stylelint": "stylelint \"**/*.css\"",
     "stylelint:fix": "stylelint \"**/*.css\" --fix",
-    "ci:format": "prettier --check ."
+    "ci:format": "prettier --check"
   },
 
   "devDependencies": {
