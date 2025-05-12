@@ -1,2 +1,1 @@
-cd nonograms
 npx lint-staged
