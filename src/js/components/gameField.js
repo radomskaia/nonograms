@@ -12,7 +12,7 @@ import {
 } from "../gameConstants.js";
 import { pushScoreTable, saveScoreTable } from "./scoreTable.js";
 import { buttonDisabled } from "./actionButtons.js";
-import { playAudio, playVictory } from "./audio.js";
+import { playAudio } from "./audio.js";
 
 const clickActions = {
   0: {
@@ -207,7 +207,7 @@ function checkGameOver(correctCount) {
 }
 
 function gameOver() {
-  playVictory();
+  playAudio(SOUNDS.victory);
   stopTimer();
   saveTimer();
   setGameState(GAME_STATES.isEndGame, true);
