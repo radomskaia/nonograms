@@ -112,7 +112,10 @@ function createGameCell(arr, isHeader, i = 0, j = 0) {
       event.preventDefault();
       mousedownHandler(event, cell, i, j);
     });
-    cell.addEventListener("click", (event) => mousedownHandler(event, cell, i, j),);
+    cell.addEventListener("click", (event) => {
+        mousedownHandler(event, cell, i, j)
+      }
+    );
     cell.addEventListener("mouseenter", function () {
       gameCells.forEach((row) => row[j].classList.add("highlightCell"));
       gameClues.column[j].classList.add("highlightCell");
@@ -165,8 +168,7 @@ function mousedownHandler(event, cell, i, j) {
     buttonDisabled(false, [DOM_ELEMENTS.reset]);
   }
 
-  const action = clickActions[event.button || event];
-
+  const action = clickActions[event.button ?? event];
   if (!action) {
     return;
   }
