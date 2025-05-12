@@ -15,20 +15,25 @@ const soundsName = {
 };
 const soundsSrc = "./sounds/";
 const audioElements = {};
-const audioBuffers = {};
-const audioCtx = new AudioContext();
-let isMuted = false;
+let isPlay = false;
+export function audioInit() {
+  Object.entries(soundsName).forEach(([key, name]) => {
+    audioElements[key] = creatAudio(soundsSrc + name);
+  });
+}
 
-export async function audioInit() {
-  for (const [type, filename] of Object.entries(soundsName)) {
-    const response = await fetch(soundsSrc + filename);
-    const arrayBuffer = await response.arrayBuffer();
-    audioBuffers[type] = await audioCtx.decodeAudioData(arrayBuffer);
-  }
+function creatAudio(src) {
+  const audio = new Audio(src);
+  audio.load();
+  return audio;
 }
 
 export function toggleMuteAudio() {
-  isMuted = !isMuted;
+  let isMuted;
+  Object.values(audioElements).forEach((audio) => {
+    audio.muted = !audio.muted;
+    isMuted = audio.muted;
+  });
   getDOMElement([DOM_ELEMENTS.volume]).src = isMuted
     ? ICONS_PATH.volumeOff
     : ICONS_PATH.volumeOn;
@@ -36,13 +41,29 @@ export function toggleMuteAudio() {
 }
 
 export function playAudio(type) {
-   if (isMuted) {
-     return
-   }
+  Object.entries(audioElements).forEach(([key, audio]) => {
+    stopAudio(audio);
+    if (key === type) {
+      isPlay = true;
+      audio
+        .play()
+        .catch((error) =>
+          console.error("Ошибка воспроизведения аудио:", error),
+        );
+      audio.onended = () => {
+        isPlay = false;
+      };
+    }
+  });
+}
 
-  const source = audioCtx.createBufferSource();
-  source.buffer = audioBuffers[type];
-  source.connect(audioCtx.destination);
-  source.start(0);
-  audioElements[type] = source;
+export function playVictory() {
+  audioElements.victory.play();
+}
+
+function stopAudio(audio) {
+  if (isPlay) {
+    audio.pause();
+    audio.currentTime = 0;
+  }
 }
