@@ -1,21 +1,26 @@
-import {createDOMElement} from "../utils.js";
-import {getDOMElement, setDOMElement} from "../elementsDOM.js";
-import {getGameState, setGameState} from "../gameState.js";
-import {showModalWindow} from "./modal.js";
-import {createTimer, saveTimer, startTimer, stopTimer} from "./timer.js";
+import { createDOMElement } from "../utils.js";
+import { getDOMElement, setDOMElement } from "../elementsDOM.js";
+import { getGameState, setGameState } from "../gameState.js";
+import { showModalWindow } from "./modal.js";
+import { createTimer, saveTimer, startTimer, stopTimer } from "./timer.js";
 import {
-  CSS_CLASSES, DOM_ELEMENTS, GAME_STATES, MODAL_MESSAGES, SOUNDS,
+  CSS_CLASSES,
+  DOM_ELEMENTS,
+  GAME_STATES,
+  MODAL_MESSAGES,
+  SOUNDS,
 } from "../gameConstants.js";
-import {pushScoreTable, saveScoreTable} from "./scoreTable.js";
-import {buttonDisabled} from "./actionButtons.js";
-import {playAudio} from "./audio.js";
+import { pushScoreTable, saveScoreTable } from "./scoreTable.js";
+import { buttonDisabled } from "./actionButtons.js";
+import { playAudio, playVictory } from "./audio.js";
 
 const clickActions = {
   0: {
     toggle: CSS_CLASSES.filled,
     remove: CSS_CLASSES.crossed,
     handler: leftButtonHandler,
-  }, 2: {
+  },
+  2: {
     toggle: CSS_CLASSES.crossed,
     remove: CSS_CLASSES.filled,
     handler: rightButtonHandler,
@@ -27,7 +32,8 @@ let gameCells, gameClues;
 
 export function createGameField() {
   const fieldWrapper = createDOMElement({
-    tagName: "table", classList: ["gameTable"],
+    tagName: "table",
+    classList: ["gameTable"],
   });
   tbody = createDOMElement({
     tagName: "tbody",
@@ -42,7 +48,8 @@ export function createGameTable() {
   tbody.replaceChildren();
   const size = getGameState("size");
   gameClues = {
-    row: [], column: [],
+    row: [],
+    column: [],
   };
   gameCells = [];
   for (let i = 0; i <= size; i++) {
@@ -50,7 +57,8 @@ export function createGameTable() {
       gameCells.push([]);
     }
     const gameRow = createDOMElement({
-      tagName: "tr", classList: ["gameRow"],
+      tagName: "tr",
+      classList: ["gameRow"],
     });
     for (let j = 0; j <= size; j++) {
       let cell;
@@ -58,24 +66,24 @@ export function createGameTable() {
         cell = createGameCell(null, true);
         cell.append(createTimer());
         cell.classList.add("timerCell");
-      } else
-        if (j === 0) {
-          cell = createGameCell(gameClues.row, true);
-        } else
-          if (i === 0) {
-            cell = createGameCell(gameClues.column, true);
-            cell.addEventListener("mouseenter", function () {
-              gameCells.forEach((row) => row[j - 1].classList.add("highlightCell"));
-              cell.classList.add("highlightCell");
-            });
+      } else if (j === 0) {
+        cell = createGameCell(gameClues.row, true);
+      } else if (i === 0) {
+        cell = createGameCell(gameClues.column, true);
+        cell.addEventListener("mouseenter", function () {
+          gameCells.forEach((row) => row[j - 1].classList.add("highlightCell"));
+          cell.classList.add("highlightCell");
+        });
 
-            cell.addEventListener("mouseleave", function () {
-              gameCells.forEach((row) => row[j - 1].classList.remove("highlightCell"),);
-              cell.classList.remove("highlightCell");
-            });
-          } else {
-            cell = createGameCell(gameCells[i - 1], false, i - 1, j - 1);
-          }
+        cell.addEventListener("mouseleave", function () {
+          gameCells.forEach((row) =>
+            row[j - 1].classList.remove("highlightCell"),
+          );
+          cell.classList.remove("highlightCell");
+        });
+      } else {
+        cell = createGameCell(gameCells[i - 1], false, i - 1, j - 1);
+      }
       gameRow.append(cell);
     }
 
@@ -97,7 +105,7 @@ export function renderGameClues() {
 }
 
 function createGameCell(arr, isHeader, i = 0, j = 0) {
-  const options = {classList: ["cell"]};
+  const options = { classList: ["cell"] };
   if (isHeader) {
     options.tagName = "th";
     options.classList.push("tableHeader");
@@ -112,9 +120,8 @@ function createGameCell(arr, isHeader, i = 0, j = 0) {
       event.preventDefault();
       mousedownHandler(event, cell, i, j);
     });
-    cell.addEventListener("click", (event) => {
-        mousedownHandler(event, cell, i, j)
-      }
+    cell.addEventListener("click", (event) =>
+      mousedownHandler(event, cell, i, j),
     );
     cell.addEventListener("mouseenter", function () {
       gameCells.forEach((row) => row[j].classList.add("highlightCell"));
@@ -225,7 +232,7 @@ function checkGameOver(correctCount) {
 }
 
 function gameOver() {
-  playAudio(SOUNDS.victory);
+  playVictory();
   stopTimer();
   saveTimer();
   setGameState(GAME_STATES.isEndGame, true);
@@ -234,15 +241,20 @@ function gameOver() {
   const timer = getGameState([GAME_STATES.timer]);
   const winnerData = {
     [GAME_STATES.timer]: timer,
-    data: [`${name[0].toUpperCase()}${name.slice(1)}`, `${size}x${size}`, `${getDOMElement(DOM_ELEMENTS.timerMinutes).textContent}
-      : ${getDOMElement(DOM_ELEMENTS.timerSeconds).textContent}`,],
+    data: [
+      `${name[0].toUpperCase()}${name.slice(1)}`,
+      `${size}x${size}`,
+      `${getDOMElement(DOM_ELEMENTS.timerMinutes).textContent}
+      : ${getDOMElement(DOM_ELEMENTS.timerSeconds).textContent}`,
+    ],
   };
   buttonDisabled(false, [DOM_ELEMENTS.score]);
   buttonDisabled(true, [DOM_ELEMENTS.save]);
   buttonDisabled(true, [DOM_ELEMENTS.solution]);
   pushScoreTable(winnerData);
   saveScoreTable();
-  const textContent = MODAL_MESSAGES.firstPart + timer + MODAL_MESSAGES.lastPart;
+  const textContent =
+    MODAL_MESSAGES.firstPart + timer + MODAL_MESSAGES.lastPart;
   showModalWindow(textContent, true);
   setGameState(GAME_STATES.isTimer, false);
 }
