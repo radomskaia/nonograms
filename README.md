@@ -46,22 +46,6 @@ To deploy the production version:
 npm run deploy
 ```
 
-## 📁 Project Structure
-
-```
-nonograms/
-├── public/               # static assets
-├── src/
-│   ├── assets/           # sounds and images
-│   ├── components/       # UI and rendering modules
-│   ├── game/             # game logic
-│   ├── utils/            # utility functions
-│   └── main.js           # app entry point
-├── index.html
-├── vite.config.js
-└── README.md
-```
-
 ## 👩‍💻 Author
 
 Alena Radomskaia
