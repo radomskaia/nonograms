@@ -21,7 +21,7 @@ export function init() {
   ]);
   updateDropList();
   updateLevel();
-  audioInit();
+  audioInit().catch((error) => console.error(error));
   const isMuted = loadFromStorage([GAME_STATES.isMuted]);
   if (isMuted) {
     toggleMuteAudio();
